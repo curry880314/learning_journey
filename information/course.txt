@@ -1,0 +1,5 @@
+EBU6007,Cybersecurity Law,85,3.3,Second semester of junior,48,4,2020213301
+EBU5027,e-Commerce Law,85,3.3,First semester of junior,48,4,2020213301
+EBU6609,Logistics and Supply Chain Management,67,1.7,Second semester of junior,36,3,2020213301
+EBU5403,Internet Protocols,90,4.0,First semester of junior,48,5,2020213301
+EBU6304,Software Engineering,60,1.0,Second semester of junior,48,4,2020213301

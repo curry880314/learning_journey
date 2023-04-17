@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Label?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+    <children>
+        <TabPane layoutY="126.0" prefHeight="470.0" prefWidth="202.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="tab_information" text="Personal Information">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="423.0" prefWidth="200.0" spacing="27.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#UpdatePhoneNum" prefHeight="40.0" prefWidth="200.0" text="Update Phone Number" />
+                                        <Button mnemonicParsing="false" onAction="#UpdateEmail" prefHeight="40.0" prefWidth="200.0" text="Update Email" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="tab_course" text="Course" >
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="423.0" prefWidth="200.0" spacing="27.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#addCourse" prefHeight="40.0" prefWidth="200.0" text="Add Course" />
+                                        <Button mnemonicParsing="false" onAction="#changeCourse" prefHeight="40.0" prefWidth="200.0" text="Update Course" />
+                                        <Button mnemonicParsing="false" onAction="#deleteCourse" prefHeight="40.0" prefWidth="200.0" text="Delete Course" />
+                                        <Button mnemonicParsing="false" onAction="#calculateGPA" prefHeight="40.0" prefWidth="200.0" text="Calculate GPA" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="tab_achievement" text="Achievement">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="221.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="422.0" prefWidth="206.0" spacing="27.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#addAchievement" prefHeight="40.0" prefWidth="200.0" text="Add Achievements" />
+                                        <Button mnemonicParsing="false" onAction="#changeTea" prefHeight="40.0" prefWidth="200.0" text="Update Achievements" />
+                                        <Button mnemonicParsing="false" onAction="#deleteTea" prefHeight="40.0" prefWidth="200.0" text="Delete Achievements" />
+                                    </children>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="tab_role" text="Role">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="221.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="422.0" prefWidth="206.0" spacing="27.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#addRole" prefHeight="40.0" prefWidth="200.0" text="Add Role" />
+                                        <Button mnemonicParsing="false" onAction="#changeRole" prefHeight="40.0" prefWidth="200.0" text="Update Role" />
+                                        <Button mnemonicParsing="false" onAction="#deleteRole" prefHeight="40.0" prefWidth="200.0" text="Delete Role" />
+                                    </children>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="tab_module" text="module">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="451.0" prefWidth="127.0" spacing="27.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <children>
+                                        <Button mnemonicParsing="false" onAction="#addModule" prefHeight="40.0" prefWidth="200.0" text="Add Modules" />
+                                        <Button mnemonicParsing="false" onAction="#changeModule" prefHeight="40.0" prefWidth="200.0" text="Update Modules" />
+                                        <Button mnemonicParsing="false" onAction="#deleteModule" prefHeight="40.0" prefWidth="200.0" text="Delete Modules" />
+                                    </children>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </VBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <AnchorPane layoutX="202.0" layoutY="102.0" prefHeight="498.0" prefWidth="850.0">
+            <children>
+                <TableView fx:id="courseTableView" editable="true" layoutY="23.0" prefHeight="479.0" prefWidth="849.0" visible="false">
+                    <columns>
+                        <TableColumn fx:id="cIdCol" prefWidth="93.0" resizable="false" text="Course Id" />
+                        <TableColumn fx:id="cNameCol" prefWidth="195.0" resizable="false" style="-fx-alignment: CENTER" text="Course Name" />
+                        <TableColumn fx:id="cScoreCol" minWidth="3.0" prefWidth="54.0" resizable="false" text="Score" />
+                        <TableColumn fx:id="cGradePointCol" prefWidth="137.0" resizable="false" text="Grade Point" />
+                        <TableColumn fx:id="cStartTremCol" prefWidth="127.0" resizable="false" text="Semester" />
+                        <TableColumn fx:id="cPeriodCol" prefWidth="130.40008544921875" resizable="false" text="Duration" />
+                        <TableColumn fx:id="cCreditCol" prefWidth="110.39990234375" resizable="false" text="Credit" />
+                    </columns>
+                </TableView>
+                <TableView fx:id="informationview" editable="no" layoutY="7.0" prefHeight="492.0" prefWidth="840.0" visible="false"></TableView>
+                <TableView fx:id="achievementTableView" editable="true" layoutY="22.0" prefHeight="478.0" prefWidth="849.0" visible="false">
+                    <columns>
+                        <TableColumn fx:id="achIDCol" minWidth="4.0" prefWidth="120.0" resizable="false" text="Number" />
+                        <TableColumn fx:id="achNameCol" prefWidth="227.0" resizable="false" text="Achievement" />
+                        <TableColumn fx:id="achLevelCol" minWidth="3.0" prefWidth="105.0" resizable="false" text="Level" />
+                        <TableColumn fx:id="achTimeCol" prefWidth="163.0" resizable="false" text="Obtained time" />
+                        <TableColumn fx:id="achMajorCol" minWidth="0.0" prefWidth="232.00006103515625" resizable="false" text="College" />
+                    </columns>
+                </TableView>
+                <TableView fx:id="RoleTableView" editable="true" layoutY="22.0" prefHeight="478.0" prefWidth="849.0">
+                    <columns>
+                        <TableColumn fx:id="roIDCol" minWidth="4.0" prefWidth="158.39996337890625" resizable="false" text="Role" />
+                        <TableColumn fx:id="roNameCol" prefWidth="300.0" resizable="false" text="RoleName" />
+                        <TableColumn fx:id="roTimeStartCol" minWidth="3.0" prefWidth="213.60003662109375" resizable="false" text="RoleTimeStart" />
+                        <TableColumn fx:id="roTimeEndCol" prefWidth="176.0" resizable="false" text="RoleTimeEnd" />
+                    </columns>
+                </TableView>
+                <TableView fx:id="ModuleTableView" editable="true" layoutY="22.0" prefHeight="478.0" prefWidth="849.0">
+                    <columns>
+                        <TableColumn fx:id="moIDCol" minWidth="4.0" prefWidth="120.0" resizable="false" text="moID" />
+                        <TableColumn fx:id="moNameCol" prefWidth="265.0" resizable="false" text="moName" />
+                        <TableColumn fx:id="moTimeCol" prefWidth="210.0" resizable="false" text="moTime" />
+                        <TableColumn fx:id="moPositionCol" prefWidth="210.0" resizable="false" text="moPosition" />
+                    </columns>
+                </TableView>
+                <AnchorPane fx:id="pane_personal" layoutY="21.0" prefHeight="479.0" prefWidth="850.0" >
+                    <children>
+                        <ImageView fitHeight="492.0" fitWidth="849.0" layoutY="1.0"  pickOnBounds="true" preserveRatio="true" >
+                            <image>
+                                <Image url="@/image/1.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="385.0" layoutY="191.0" ></Label>
+                        <GridPane fx:id="grid_pane_information" layoutX="385.0" layoutY="191.0" prefHeight="126.0" prefWidth="330.0" >
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+
+                        </GridPane>
+                    </children>
+                </AnchorPane>
+            </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="69.0" prefWidth="1000.0">
+            <children>
+                <Text fill="#35703f" layoutX="362.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Learning Journey">
+                    <font>
+                        <Font size="48.0" />
+                    </font>
+                </Text>
+                <Button fx:id="loginButton" layoutX="810.0" layoutY="30.0" mnemonicParsing="false" onAction="#login" opacity="0.64" prefHeight="50.0" prefWidth="102.0" text="Log In" textFill="#050303">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Button>
+                <Button fx:id="logOutButton" layoutX="810.0" layoutY="30.0" mnemonicParsing="false" onAction="#logOut" prefHeight="50.0" prefWidth="102.0" text="Log Out" textFill="firebrick" visible="false">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Button>
+                <ImageView fitHeight="108.0" fitWidth="147.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/image/3.jpg" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="102.0" fitWidth="123.0" layoutX="927.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/image/4.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

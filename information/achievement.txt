@@ -1,0 +1,4 @@
+1,Running 5000 meters at night,Fifth place,2022.05.02,International College,2020213301
+2,Campus Singing Competition,First place,2022.12.01,International College,2020213301
+3,Campus chess competition,First place,2023.04.01,International College,2020213301
+4,Basketball Club Cup,Second place,2020.12.25,Artificial Intelligence College,2020213301
