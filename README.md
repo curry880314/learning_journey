@@ -1,0 +1,2 @@
+# learning_journey
+基于javafx所创建的记录大学四年学习之旅的应用程序
