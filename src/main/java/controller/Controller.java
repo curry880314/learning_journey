@@ -103,7 +103,9 @@ public class Controller implements Initializable {
     ImageView imageView = new ImageView();
 
 
-
+    /**
+     * 添加课程
+     */
     public void addCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -166,7 +168,9 @@ public class Controller implements Initializable {
         });
     }
 
-
+    /**
+     * 更新课程
+     */
     public void changeCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -234,7 +238,9 @@ public class Controller implements Initializable {
         }
     }
 
-
+    /**
+     * 删除课程
+     */
     public void deleteCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -262,6 +268,9 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * 计算GPA
+     */
     public  boolean calculateGPA(){
         float sum = 0,creditSum = 0;
         for (Course score:courses) {
@@ -274,8 +283,9 @@ public class Controller implements Initializable {
     }
 
 
-
-
+    /**
+     * 添加成就
+     */
     public void addAchievement() {
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -824,6 +834,7 @@ public class Controller implements Initializable {
 
 
     }
+    //登陆
     public void login(){
         Dialog<LoginResults> dialog = new Dialog<>();
         dialog.setTitle("Login");
