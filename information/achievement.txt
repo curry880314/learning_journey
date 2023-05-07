@@ -2,4 +2,79 @@
 2,Campus Singing Competition,First place,2022.12.01,International College,2020213301
 3,Campus chess competition,First place,2023.04.01,International College,2020213301
 4,Basketball Club Cup,Second place,2020.12.25,Artificial Intelligence College,2020213301
-6,Basketball Club Cup,Second place,2020.12.25,Artificial Intelligence College,2020213301
+5,Debate Competition,Third place,2023.03.15,International College,2020213301
+6,Running 1500 meters in the morning,First place,2022.07.22,Physical Education College,2020213301
+7,Table Tennis Championship,Second place,2022.09.10,School of Software,2020213301
+8,Folk Music Contest,Third place,2023.01.05,College of Music,2020213301
+9,Mathematics Olympiad,First place,2022.11.05,College of Science,2020213301
+10,Volleyball Tournament,Second place,2023.05.01,College of Civil Engineering,2020213301
+11,Speech Contest,First place,2023.06.08,School of Journalism,2020213301
+12,Chinese Calligraphy Competition,Second place,2022.10.18,College of Literature, 2020213301
+13,Computer Programming Contest,Third place,2022.08.05,School of Computer Science,2020213301
+14,Swimming Championship,First place,2023.07.12,School of Physical Education,2020213301
+15,Art Exhibition,Second place,2023.09.20,College of Fine Arts,2020213301
+16,French Language Proficiency Test,First place,2022.06.28,College of Foreign Languages,2020213301
+17,Science and Technology Innovation Competition,Third place,2023.03.01,School of Electronics and Information Engineering,2020213301
+18,English Writing Competition,Second place,2022.11.15,School of International Studies,2020213301
+19,Architectural Design Competition,Third place,2023.04.20,School of Architecture and Urban Planning,2020213301
+20,Chinese Painting Competition,First place,2022.09.28,College of Arts and Design,2020213301
+1,Swimming Competition, Third place, 2023.07.08, School of Computer Science,2020213302
+2,Poetry Recitation Contest, Second place, 2022.11.05, School of Foreign Languages,2020213302
+3,Debate Competition, First place, 2023.03.25, School of Public Administration,2020213302
+4,Volleyball Match, Fourth place, 2021.11.19, School of Mathematics,2020213302
+5,English Speech Contest, First place, 2022.04.02, School of International Business,2020213302
+6,Calligraphy Exhibition, Third place, 2023.01.11, School of Arts,2020213302
+7,Photography Contest, Second place, 2022.09.13, School of Journalism and Communication,2020213302
+8,Track and Field Meet, Fourth place, 2023.05.20, School of Physical Education,2020213302
+9,Chinese Writing Competition, First place, 2022.12.15, School of Chinese Language and Literature,2020213302
+10,Film Festival, Best Supporting Actress, 2023.08.08, School of Film and Television Arts,2020213302
+11,Business Plan Competition, Third place, 2022.06.22, School of Economics,2020213302
+12,Chess Tournament, Second place, 2023.04.18, School of Statistics,2020213302
+13,Calligraphy Competition, First place, 2022.11.29, School of Design,2020213302
+14,Speech Contest, Second place, 2023.02.14, School of Marxism,2020213302
+15,Physics Competition, Fourth place, 2022.10.09, School of Physics,2020213302
+16,Programming Contest, First place, 2023.06.05, School of Software Engineering,2020213302
+17,Chinese Traditional Music Performance, Third place, 2022.08.23, School of Music,2020213302
+18,Mathematics Competition, Second place, 2023.03.10, School of Information Science and Technology,2020213302
+19,Football Match, First place, 2022.12.31, School of Urban and Environmental Sciences,2020213302
+20,Drama Performance, Fourth place, 2023.09.17, School of Theatre and Film Studies,2020213302
+1,Debate Competition, First place, 2022.11.05, School of International Relations,2020213303
+2,Photography Contest, Second place, 2023.03.12, School of Media and Communication,2020213303
+3,Mathematics Olympiad, Third place, 2021.06.22, School of Mathematical Sciences,2020213303
+4,Swimming Championship, Fourth place, 2022.08.28, School of Physical Education,2020213303
+5,Chinese Calligraphy Competition, First place, 2023.01.07, School of Chinese Language and Literature,2020213303
+6,English Public Speaking Contest, Second place, 2021.11.19, School of Foreign Languages,2020213303
+7,Table Tennis Tournament, Third place, 2022.07.03, School of Sports Science,2020213303
+8,Fashion Design Competition, Fourth place, 2023.02.15, School of Arts and Design,2020213303
+9,Programming Contest, First place, 2021.12.08, School of Computer Science and Technology,2020213303
+10,Singing Competition, Second place, 2022.04.25, School of Music,2020213303
+11,Soccer Cup, Third place, 2023.05.30, School of Journalism and Communication,2020213303
+12,Drama Performance, First place, 2022.10.10, School of Theatre and Film Studies,2020213303
+13,Chess Tournament, Second place, 2021.09.02, School of Information Science and Technology,2020213303
+14,Volleyball League, Third place, 2022.12.18, School of Education,2020213303
+15,Speech Contest, Fourth place, 2023.06.08, School of Political Science and Public Administration,2020213303
+16,Calligraphy Exhibition, First place, 2022.02.14, School of Arts and Humanities,2020213303
+17,Badminton Open, Second place, 2021.07.27, School of Physics and Astronomy,2020213303
+18,Robotics Competition, Third place, 2023.04.03, School of Electronic and Information Engineering,2020213303
+19,Drama Performance, Fourth place, 2021.10.22, School of Journalism and Communication,2020213303
+20,Bridge Tournament, First place, 2023.08.09, School of Civil Engineering and Mechanics,2020213303
+1,Football League, Third place, 2021.11.15, Physical Education College,2020213306
+2,Swimming Competition, First place, 2022.05.28, Sports Science College,2020213306
+3,Marathon Race, Fifth place, 2023.03.20, School of Journalism and Communication,2020213306
+4,Volleyball Club Cup, Second place, 2022.12.24, School of Economics and Management,2020213306
+5,English Speech Contest, First place, 2022.06.10, School of Foreign Languages,2020213306
+6,Chinese Calligraphy Competition, Fourth place, 2023.01.08, School of Chinese Literature,2020213306
+7,Debate Competition, Third place, 2023.10.09, School of Political Science and Public Administration,2020213306
+8,Tennis Championship, Second place, 2021.08.22, School of Law,2020213306
+9,Electronic Sports League, First place, 2023.11.30, School of Information Science and Technology,2020213306
+10,Photography Contest, Fifth place, 2022.04.06, School of Arts,2020213306
+11,Poetry Reading Contest, Third place, 2023.02.14, School of Humanities,2020213306
+12,Model United Nations Conference, First place, 2022.09.25, School of International Studies,2020213306
+13,Music Festival, Second place, 2023.05.11, School of Music,2020213306
+14,Design Competition, Fourth place, 2022.11.19, School of Design,2020213306
+15,Innovation and Entrepreneurship Competition, Third place, 2023.08.07, School of Innovation and Entrepreneurship,2020213306
+16,Table Tennis Championship, First place, 2021.07.03, School of Physical Science and Technology,2020213306
+17,Mathematics Contest, Second place, 2023.04.22, School of Mathematical Sciences,2020213306
+18,Cooking Competition, Fifth place, 2022.03.09, School of Hotel and Tourism Management,2020213306
+19,Hackathon, Third place, 2023.09.04, School of Computer Science and Engineering,2020213306
+20,Dance Competition, Fourth place, 2022.08.16, School of Contemporary Arts,2020213306
