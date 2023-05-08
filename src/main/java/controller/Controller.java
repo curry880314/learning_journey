@@ -581,6 +581,10 @@ public class Controller implements Initializable {
         }
 
     }
+
+    /**
+     * Phone number change function in personal information
+     */
     public void UpdatePhoneNum(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -621,6 +625,10 @@ public class Controller implements Initializable {
 
         }
     }
+
+    /**
+     * Email change function in personal information
+     */
     public void UpdateEmail(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -812,6 +820,10 @@ public class Controller implements Initializable {
             }
         }
     }
+
+    /**
+     * log Out function
+     */
     public  void logOut(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Please confirm if you want to log out:");
@@ -834,7 +846,11 @@ public class Controller implements Initializable {
 
 
     }
-    //登陆
+
+
+    /**
+     * login function
+     */
     public void login(){
         Dialog<LoginResults> dialog = new Dialog<>();
         dialog.setTitle("Login");
@@ -890,6 +906,7 @@ public class Controller implements Initializable {
             }
         });
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -968,6 +985,9 @@ public class Controller implements Initializable {
 
     }
 
+    /**
+     * The function of updating personal information
+     */
     private void refreshPersonalInformation(){
         grid_pane_information.getChildren().clear();
         String url = new PersonalInformationImpl().getInformation(adminID).imageUrl;

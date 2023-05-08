@@ -8,6 +8,9 @@ import java.awt.print.PrinterJob;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Implementation of Personal Information Service Layer
+ */
 public class PersonalInformationImpl implements PersonalInformationService {
     String fileName = "information/user.txt";
     public PersonalInformation getInformation(String ID){
