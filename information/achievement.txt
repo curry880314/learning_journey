@@ -77,4 +77,3 @@
 17,Mathematics Contest, Second place, 2023.04.22, School of Mathematical Sciences,2020213306
 18,Cooking Competition, Fifth place, 2022.03.09, School of Hotel and Tourism Management,2020213306
 19,Hackathon, Third place, 2023.09.04, School of Computer Science and Engineering,2020213306
-20,Dance Competition, Fourth place, 2022.08.16, School of Contemporary Arts,2020213306
