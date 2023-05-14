@@ -1,4 +1,4 @@
-1,Running 5000 meters at night,Fifth place,2022.05.02,International College,2020213301
+1,Running 5000 meters at night,Firth place,2022.05.02,International College,2020213301
 2,Campus Singing Competition,First place,2022.12.01,International College,2020213301
 3,Campus chess competition,First place,2023.04.01,International College,2020213301
 4,Basketball Club Cup,Second place,2020.12.25,Artificial Intelligence College,2020213301
@@ -77,4 +77,5 @@
 17,Mathematics Contest, Second place, 2023.04.22, School of Mathematical Sciences,2020213306
 18,Cooking Competition, Fifth place, 2022.03.09, School of Hotel and Tourism Management,2020213306
 19,Hackathon, Third place, 2023.09.04, School of Computer Science and Engineering,2020213306
-20,Dance Competition, Fourth place, 2022.08.16, School of Contemporary Arts,2020213306
+20,Dance Competition, Fourth place, 2022.08.16, School of Contemporary Arts,202021330621,Running 1000 meters at night,First place,2023.01.02,International College,2020213301
+21,Running 1000 meters at night,First place,2023.01.02,International College,2020213301
