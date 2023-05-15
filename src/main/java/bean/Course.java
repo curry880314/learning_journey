@@ -118,5 +118,17 @@ public class Course {
     public void setcCredit(String cCredit) {
         this.cCredit.set(cCredit);
     }
+    public String toString() {
+        return "Course{" +
+                "courseID=" + cID +
+                ", courseName=" + cName +
+                ", cScore=" + cScore +
+                ", cGradePoint=" + cGradePoint +
+                ", cStartTerm=" + cStartTerm +
+                ", cPeriod=" + cPeriod +
+                ", cCredit=" + cCredit +
+                ", username=" + username +
+                '}';
+    }
 
 }
