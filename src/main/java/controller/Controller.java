@@ -480,7 +480,7 @@ public class Controller implements Initializable {
 
         Optional<RoleResult> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent((RoleResult results) -> {
-            Role role = new RoleServiceimpl().get(results.rID);
+            Role role = new RoleServiceimpl().get(results.rID,adminID);
             if(role != null){
                 alert("Hint","Role number is【" + results.rID + "】data which is exist，unable to add！",null, Alert.AlertType.INFORMATION);
             }else{
@@ -509,7 +509,7 @@ public class Controller implements Initializable {
             if(checkIdIllegal(result.get())){
                 return;
             }
-            Role role = new RoleServiceimpl().get(result.get());
+            Role role = new RoleServiceimpl().get(result.get(),adminID);
             if(null != role){
                 Dialog<RoleResult> dialog = new Dialog<>();
                 dialog.setTitle("Role Data");
@@ -570,7 +570,7 @@ public class Controller implements Initializable {
             if(checkIdIllegal(result.get())){
                 return;
             }
-            Role role = new RoleServiceimpl().get(result.get());
+            Role role = new RoleServiceimpl().get(result.get(),adminID);
             if(null != role){
                 new RoleServiceimpl().delete(role.getRoID());
                 alert("Hint","Successfully delete with number is【" + role.getRoID() + "】Role Data！",null, Alert.AlertType.INFORMATION);

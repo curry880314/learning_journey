@@ -74,12 +74,12 @@ public class RoleServiceimpl implements RoleService {
                 role.getRoTimeEnd(),role.getUsername());
     }
     @Override
-    public Role get(String rID){
+    public Role get(String rID,String radmin){
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if(rID.equals(parts[0].trim())){
+                if(rID.equals(parts[0].trim())&&radmin.equals(parts[4])){
                     Role newRole=new Role(parts[0],parts[1],parts[2],parts[3],parts[4]);
                     return newRole;
                 }
