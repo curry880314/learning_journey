@@ -24,6 +24,8 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
@@ -609,6 +611,11 @@ public class Controller implements Initializable {
         dialog.getDialogPane().setContent(grid);
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String Phonenumber=NewPhoneNumber.getText();
+                if(!isValidPhoneNumber(Phonenumber)){
+                    alert("Hint","Phone number is wrong format",null, Alert.AlertType.WARNING);
+                    return null;
+                }
                 return new PersonalInformation(adminID,"","","","","","","");
             }
             return null;
@@ -630,6 +637,7 @@ public class Controller implements Initializable {
      * Email change function in personal information
      */
     public void UpdateEmail(){
+        final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
             return;
@@ -653,6 +661,11 @@ public class Controller implements Initializable {
         dialog.getDialogPane().setContent(grid);
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String email=NewEmailNumber.getText();
+                if(!isValidEmail(email)){
+                    alert("Hint","Email is wrong format",null, Alert.AlertType.WARNING);
+                    return null;
+                }
                 return new PersonalInformation(adminID,"","","","","","","");
             }
             return null;
@@ -669,6 +682,20 @@ public class Controller implements Initializable {
 
         }
 
+    }
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+    public static boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    private static final String PHONE_NUMBER_REGEX = "^1[3456789]\\d{9}$";
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEX);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
     }
     public void addModule(){
         if(adminID.equals("0")) {
