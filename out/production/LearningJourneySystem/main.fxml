@@ -61,7 +61,7 @@
                                 <VBox alignment="CENTER" prefHeight="422.0" prefWidth="206.0" spacing="27.0">
                                     <children>
                                         <Button mnemonicParsing="false" onAction="#addAchievement" prefHeight="40.0" prefWidth="200.0" text="Add Achievements" />
-                                        <Button mnemonicParsing="false" onAction="#changeTea" prefHeight="40.0" prefWidth="200.0" text="Update Achievements" />
+                                        <Button mnemonicParsing="false" onAction="#changeAch" prefHeight="40.0" prefWidth="200.0" text="Update Achievements" />
                                         <Button mnemonicParsing="false" onAction="#deleteTea" prefHeight="40.0" prefWidth="200.0" text="Delete Achievements" />
                                     </children>
                                     <opaqueInsets>

@@ -753,9 +753,6 @@ public class Controller implements Initializable {
             refreshPersonalInformation();
             alert("Hint","Successfully modified Phone number is【" + NewPhoneNumber.getText() + "】！",null, Alert.AlertType.INFORMATION);
         }
-        else {
-
-        }
     }
 
     /**
@@ -860,6 +857,20 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String moIDInput = moID.getText();
+                String moNameInput = moName.getText();
+                String moTimeInput = moTime.getText();
+                String moPositionInput = moPosition.getText();
+
+                if (isEmpty(moIDInput) || isEmpty(moNameInput) || isEmpty(moTimeInput) || isEmpty(moPositionInput)) {
+                    alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+
+                if (!isValidTime(moTimeInput)) {
+                    alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                    return null;
+                }
                 return new ModuleResult(moID.getText(),
                         moName.getText(),moTime.getText(),
                         moPosition.getText());
@@ -883,7 +894,6 @@ public class Controller implements Initializable {
 
             }
         });
-
     }
     public void deleteModule(){
         if(adminID.equals("0")) {
@@ -928,7 +938,7 @@ public class Controller implements Initializable {
 
             Module module = new ModuleServicelmpl().get(Integer.parseInt(result.get()),adminID);
             if(null != module){
-                Dialog<AchievementResult> dialog = new Dialog<>();
+                Dialog<ModuleResult> dialog = new Dialog<>();
                 dialog.setTitle("Module Data");
                 dialog.setHeaderText(null);
 
@@ -957,7 +967,29 @@ public class Controller implements Initializable {
 
 
                 dialog.getDialogPane().setContent(grid);
-                Optional<AchievementResult> results = dialog.showAndWait();
+
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+                        String moIDInput = moID.getText();
+                        String moNameInput = moName.getText();
+                        String moTimeInput = moTime.getText();
+                        String moPositionInput = moPosition.getText();
+
+                        if (isEmpty(moIDInput) || isEmpty(moNameInput) || isEmpty(moTimeInput) || isEmpty(moPositionInput)) {
+                            alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+
+                        if (!isValidTime(moTimeInput)) {
+                            alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        return new ModuleResult(moIDInput, moNameInput, moTimeInput, moPositionInput);
+                    }
+
+                    return null;
+                });
+                Optional<ModuleResult> results = dialog.showAndWait();
 
                 if(results.isPresent()){
 
