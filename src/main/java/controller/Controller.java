@@ -24,6 +24,8 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
@@ -147,6 +149,7 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+
                 return new CourseResults(cID.getText(),cName.getText(),
                         cScore.getText(),cScore.getText(),
                         cStartTerm.getText(),cPeriod.getText(), cCredit.getText());
@@ -155,6 +158,20 @@ public class Controller implements Initializable {
         });
         Optional<CourseResults> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent((CourseResults results) -> {
+            if (results.cID.isEmpty() || results.cName.isEmpty() || results.cScore.isEmpty() ||
+                    results.cStartTerm.isEmpty() || results.cPeriod.isEmpty() || results.cCredit.isEmpty()) {
+                alert("Hint", "Please enter all required information.", null, Alert.AlertType.ERROR);
+                return;
+            }
+            if(!isValidCode(results.cID)){
+                alert("Hint", "ID must be EBU+4(0-9).", null, Alert.AlertType.ERROR);
+                return;
+            }
+            int score = Integer.parseInt(results.cScore);
+            if (score < 0 || score > 100) {
+                alert("Hint", "Score must be between 0 and 100.", null, Alert.AlertType.ERROR);
+                return;
+            }
             Course course = new CourseServiceImpl().get(results.cID);
             if(course != null){
                 alert("Hint","Course number is【" + results.cID + "】data which is exist，unable to add！",null, Alert.AlertType.INFORMATION);
@@ -189,6 +206,7 @@ public class Controller implements Initializable {
             }
             Course course = new CourseServiceImpl().get(result.get());
             if(null != course){
+
                 Dialog<CourseResults> dialog = new Dialog<>();
                 dialog.setTitle("Course Data");
                 dialog.setHeaderText(null);
@@ -210,10 +228,10 @@ public class Controller implements Initializable {
 
                 grid.add(new Label("Course Number:"), 0, 0);
                 grid.add(cID, 1, 0);
-                grid.add(new Label("Course Name:"), 0, 1);
-                grid.add(cName, 1, 1);
-                grid.add(new Label("Score:"), 0, 2);
-                grid.add(cScore, 1, 2);
+                grid.add(new Label("Score:"), 0, 1);
+                grid.add(cScore, 1, 1);
+                grid.add(new Label("Course Name:"), 0, 2);
+                grid.add(cName, 1, 2);
                 grid.add(new Label("Opening Semester:"), 0, 3);
                 grid.add(cStartTerm, 1, 3);
                 grid.add(new Label("Duration:"), 0, 4);
@@ -222,16 +240,39 @@ public class Controller implements Initializable {
                 grid.add(cCredit, 1, 5);
 
                 dialog.getDialogPane().setContent(grid);
-                Optional<CourseResults> results = dialog.showAndWait();
 
-                if(results.isPresent()){
-                    course = new Course(cID.getText(),cName.getText(),cScore.getText(),cGradePointCol.getText(),
+
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+
+                        return new CourseResults(cID.getText(),cName.getText(),
+                                cScore.getText(),cScore.getText(),
+                                cStartTerm.getText(),cPeriod.getText(), cCredit.getText());
+                    }
+                    return null;
+                });
+                Optional<CourseResults> optionalResult = dialog.showAndWait();
+                optionalResult.ifPresent((CourseResults results) ->{
+                    Course courseadd = new Course(cID.getText(),cName.getText(),cScore.getText(),cGradePointCol.getText(),
                             cStartTerm.getText(),cPeriod.getText(), cCredit.getText(), username);
-
+                    if (results.cID.isEmpty() || results.cName.isEmpty() || results.cScore.isEmpty() ||
+                            results.cStartTerm.isEmpty() || results.cPeriod.isEmpty() || results.cCredit.isEmpty()) {
+                        alert("Hint", "Please enter all required information.", null, Alert.AlertType.ERROR);
+                        return;
+                    }
+                    if(!isValidCode(results.cID)){
+                        alert("Hint", "ID must be EBU+4(0-9).", null, Alert.AlertType.ERROR);
+                        return;
+                    }
+                    int score = Integer.parseInt(results.cScore);
+                    if (score < 0 || score > 100) {
+                        alert("Hint", "Score must be between 0 and 100.", null, Alert.AlertType.ERROR);
+                        return;
+                    }
                     new CourseServiceImpl().update(result.get(), course);
                     alert("Hint","Successfully modified course number is【" + course.getcID() + "】course data！",null, Alert.AlertType.INFORMATION);
                     refreshCourseTable();
-                }
+                    });
             }else{
                 alert("Hint","There is no record of this course and it cannot be modified！",null, Alert.AlertType.ERROR);
             }
@@ -259,7 +300,7 @@ public class Controller implements Initializable {
             }
             Course course = new CourseServiceImpl().get(result.get());
             if(null != course){
-                new CourseServiceImpl().delete(course.getcID(),username);
+                new CourseServiceImpl().delete(course.getcID());
                 alert("Hint","Successfully delete with number is【" + course.getcID() + "】Course Data！",null, Alert.AlertType.INFORMATION);
                 refreshCourseTable();
             }else {
@@ -324,6 +365,22 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String achTimeInput = achTime.getText();
+                String achIDInput = achID.getText();
+                String achNameInput = achName.getText();
+                String achLevelInput = achLevel.getText();
+                //String achTimeInput = achTime.getText();
+                String achMajorInput = achMajor.getText();
+
+                if (isEmpty(achIDInput) || isEmpty(achNameInput) || isEmpty(achLevelInput) || isEmpty(achTimeInput) || isEmpty(achMajorInput)) {
+                    alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+                if (!isValidTime(achTimeInput)) {
+                    alert("Hint", "Invalid achievement time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+
                 return new AchievementResult(achID.getText(),
                         achName.getText(),achLevel.getText(),
                         achTime.getText(),achMajor.getText());
@@ -333,6 +390,7 @@ public class Controller implements Initializable {
 
         Optional<AchievementResult> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent((AchievementResult results) -> {
+
             Achievement achievement = new AchievementServiceImpl().get(Integer.parseInt(achID.getText()),adminID);
             if(achievement != null){
                 alert("Hint","Number is 【" + results.tID + "】achievement data is exist，unable to add！",null, Alert.AlertType.ERROR);
@@ -345,8 +403,14 @@ public class Controller implements Initializable {
             }
         });
     }
-
-    public void changeTea(){
+    public boolean isEmpty(String value) {//判断内部是否为空
+        return value == null || value.trim().isEmpty();
+    }
+    public boolean isValidTime(String achTime) {//对输入的时间格式进行验证
+        String pattern = "^\\d{4}\\.\\d{2}\\.\\d{2}$";
+        return achTime.matches(pattern);
+    }
+    public void changeAch(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first!",null, Alert.AlertType.ERROR);
             return;
@@ -378,7 +442,7 @@ public class Controller implements Initializable {
 
                 TextField tID = new TextField(achievement.getAchID());
                 TextField tName = new TextField(achievement.getAchName());
-                TextField tSex = new TextField(achievement.getAchLevel());
+                TextField tLevel = new TextField(achievement.getAchLevel());
                 TextField tBirth = new TextField(achievement.getAchTime());
                 TextField tMajor = new TextField(achievement.getAchMajor());
 
@@ -387,18 +451,47 @@ public class Controller implements Initializable {
                 grid.add(new Label("Achievement:"), 0, 1);
                 grid.add(tName, 1, 1);
                 grid.add(new Label("Level:"), 0, 2);
-                grid.add(tSex, 1, 2);
+                grid.add(tLevel, 1, 2);
                 grid.add(new Label("Obtained time:"), 0, 3);
                 grid.add(tBirth, 1, 3);
                 grid.add(new Label("College:"), 0, 4);
                 grid.add(tMajor, 1, 4);
 
                 dialog.getDialogPane().setContent(grid);
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+                        String achTimeInput = tBirth.getText();
+                        String achIDInput = tID.getText();
+                        String achNameInput = tName.getText();
+                        String achLevelInput = tLevel.getText();
+                        String achMajorInput = tMajor.getText();
+                        Achievement achievement1=new AchievementServiceImpl().get(Integer.parseInt(achIDInput),adminID);
+
+                        if(achievement1!=null){
+                            alert("Hint", "ID duplication.", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        if (isEmpty(achIDInput) || isEmpty(achNameInput) || isEmpty(achLevelInput) || isEmpty(achTimeInput) || isEmpty(achMajorInput)) {
+                            alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        if (!isValidTime(achTimeInput)) {
+                            alert("Hint", "Invalid achievement time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+
+                        return new AchievementResult(tID.getText(),
+                                tName.getText(),tLevel.getText(),
+                                tBirth.getText(),tMajor.getText());
+                    }
+                    return null;
+                });
                 Optional<AchievementResult> results = dialog.showAndWait();
 
                 if(results.isPresent()){
+
                     Achievement ach = new Achievement(tID.getText(),
-                            tName.getText(),tSex.getText(),
+                            tName.getText(),tLevel.getText(),
                             tBirth.getText(),tMajor.getText());
                     new AchievementServiceImpl().update(adminID, ach);
                     alert("Hint","Successfully modified the number is【" + achievement.getAchID() + "】 achievement data！",null, Alert.AlertType.INFORMATION);
@@ -471,6 +564,19 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String roIDInput = roID.getText();
+                String roNameInput = roName.getText();
+                String roTimeStartInput = roTimeStart.getText();
+                String roTimeEndInput = roTimeEnd.getText();
+
+                if (isEmpty(roIDInput) || isEmpty(roNameInput) || isEmpty(roTimeStartInput) || isEmpty(roTimeEndInput)) {
+                    alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+                if (!isValidTime(roTimeStartInput) || !isValidTime(roTimeEndInput)) {
+                    alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                    return null;
+                }
                 return new RoleResult(roID.getText(),
                         roName.getText(),roTimeStart.getText(),
                         roTimeEnd.getText());
@@ -538,11 +644,32 @@ public class Controller implements Initializable {
                 grid.add(rTimeEnd, 1, 3);
 
                 dialog.getDialogPane().setContent(grid);
+
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+                        String roIDInput = rID.getText();
+                        String roNameInput = rName.getText();
+                        String roTimeStartInput = rTimeStart.getText();
+                        String roTimeEndInput = rTimeEnd.getText();
+
+                        if (isEmpty(roIDInput) || isEmpty(roNameInput) || isEmpty(roTimeStartInput) || isEmpty(roTimeEndInput)) {
+                            alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        if (!isValidTime(roTimeStartInput) || !isValidTime(roTimeEndInput)) {
+                            alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        return new RoleResult(rID.getText(),
+                                rName.getText(),rTimeStart.getText(),
+                                rTimeEnd.getText());
+                    }
+                    return null;
+                });
                 Optional<RoleResult> results = dialog.showAndWait();
 
                 if(results.isPresent()){
                     role = new Role(rID.getText(),rName.getText(),rTimeStart.getText(),rTimeEnd.getText(),username);
-
                     new RoleServiceimpl().update(result.get(), role);
                     alert("Hint","Successfully modified role number is【" + role.getRoID() + "】role data！",null, Alert.AlertType.INFORMATION);
                     refreshRoleTable();
@@ -572,7 +699,7 @@ public class Controller implements Initializable {
             }
             Role role = new RoleServiceimpl().get(result.get(),adminID);
             if(null != role){
-                new RoleServiceimpl().delete(role.getRoID(),username);
+                new RoleServiceimpl().delete(role.getRoID());
                 alert("Hint","Successfully delete with number is【" + role.getRoID() + "】Role Data！",null, Alert.AlertType.INFORMATION);
                 refreshRoleTable();
             }else {
@@ -609,6 +736,11 @@ public class Controller implements Initializable {
         dialog.getDialogPane().setContent(grid);
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String Phonenumber=NewPhoneNumber.getText();
+                if(!isValidPhoneNumber(Phonenumber)){
+                    alert("Hint","Phone number is wrong format",null, Alert.AlertType.WARNING);
+                    return null;
+                }
                 return new PersonalInformation(adminID,"","","","","","","");
             }
             return null;
@@ -620,9 +752,6 @@ public class Controller implements Initializable {
             PII.executeUpdate(adminID,NewPhoneNumber.getText(),PII.getInformation(adminID).email);
             refreshPersonalInformation();
             alert("Hint","Successfully modified Phone number is【" + NewPhoneNumber.getText() + "】！",null, Alert.AlertType.INFORMATION);
-        }
-        else {
-
         }
     }
 
@@ -653,6 +782,11 @@ public class Controller implements Initializable {
         dialog.getDialogPane().setContent(grid);
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String email=NewEmailNumber.getText();
+                if(!isValidEmail(email)){
+                    alert("Hint","Email is wrong format",null, Alert.AlertType.WARNING);
+                    return null;
+                }
                 return new PersonalInformation(adminID,"","","","","","","");
             }
             return null;
@@ -669,6 +803,24 @@ public class Controller implements Initializable {
 
         }
 
+    }
+    public static boolean isValidCode(String code) {
+        String pattern = "^EBU\\d{4}$";
+        return code.matches(pattern);
+    }
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+    public static boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+    private static final String PHONE_NUMBER_REGEX = "^1[3456789]\\d{9}$";
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEX);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
     }
     public void addModule(){
         if(adminID.equals("0")) {
@@ -705,6 +857,20 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String moIDInput = moID.getText();
+                String moNameInput = moName.getText();
+                String moTimeInput = moTime.getText();
+                String moPositionInput = moPosition.getText();
+
+                if (isEmpty(moIDInput) || isEmpty(moNameInput) || isEmpty(moTimeInput) || isEmpty(moPositionInput)) {
+                    alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+
+                if (!isValidTime(moTimeInput)) {
+                    alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                    return null;
+                }
                 return new ModuleResult(moID.getText(),
                         moName.getText(),moTime.getText(),
                         moPosition.getText());
@@ -728,7 +894,6 @@ public class Controller implements Initializable {
 
             }
         });
-
     }
     public void deleteModule(){
         if(adminID.equals("0")) {
@@ -773,7 +938,7 @@ public class Controller implements Initializable {
 
             Module module = new ModuleServicelmpl().get(Integer.parseInt(result.get()),adminID);
             if(null != module){
-                Dialog<AchievementResult> dialog = new Dialog<>();
+                Dialog<ModuleResult> dialog = new Dialog<>();
                 dialog.setTitle("Module Data");
                 dialog.setHeaderText(null);
 
@@ -802,7 +967,29 @@ public class Controller implements Initializable {
 
 
                 dialog.getDialogPane().setContent(grid);
-                Optional<AchievementResult> results = dialog.showAndWait();
+
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+                        String moIDInput = moID.getText();
+                        String moNameInput = moName.getText();
+                        String moTimeInput = moTime.getText();
+                        String moPositionInput = moPosition.getText();
+
+                        if (isEmpty(moIDInput) || isEmpty(moNameInput) || isEmpty(moTimeInput) || isEmpty(moPositionInput)) {
+                            alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+
+                        if (!isValidTime(moTimeInput)) {
+                            alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        return new ModuleResult(moIDInput, moNameInput, moTimeInput, moPositionInput);
+                    }
+
+                    return null;
+                });
+                Optional<ModuleResult> results = dialog.showAndWait();
 
                 if(results.isPresent()){
 
