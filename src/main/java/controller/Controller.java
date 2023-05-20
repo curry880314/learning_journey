@@ -211,9 +211,9 @@ public class Controller implements Initializable {
                 grid.add(new Label("Course Number:"), 0, 0);
                 grid.add(cID, 1, 0);
                 grid.add(new Label("Course Name:"), 0, 1);
-                grid.add(cScore, 1, 1);
+                grid.add(cName, 1, 1);
                 grid.add(new Label("Score:"), 0, 2);
-                grid.add(cName, 1, 2);
+                grid.add(cScore, 1, 2);
                 grid.add(new Label("Opening Semester:"), 0, 3);
                 grid.add(cStartTerm, 1, 3);
                 grid.add(new Label("Duration:"), 0, 4);
@@ -259,7 +259,7 @@ public class Controller implements Initializable {
             }
             Course course = new CourseServiceImpl().get(result.get());
             if(null != course){
-                new CourseServiceImpl().delete(course.getcID());
+                new CourseServiceImpl().delete(course.getcID(),username);
                 alert("Hint","Successfully delete with number is【" + course.getcID() + "】Course Data！",null, Alert.AlertType.INFORMATION);
                 refreshCourseTable();
             }else {
@@ -572,7 +572,7 @@ public class Controller implements Initializable {
             }
             Role role = new RoleServiceimpl().get(result.get(),adminID);
             if(null != role){
-                new RoleServiceimpl().delete(role.getRoID());
+                new RoleServiceimpl().delete(role.getRoID(),username);
                 alert("Hint","Successfully delete with number is【" + role.getRoID() + "】Role Data！",null, Alert.AlertType.INFORMATION);
                 refreshRoleTable();
             }else {

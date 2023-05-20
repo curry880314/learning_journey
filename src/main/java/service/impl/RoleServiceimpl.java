@@ -26,7 +26,7 @@ public class RoleServiceimpl implements RoleService {
         executeUpdate(role.getRoID(),role.getRoName(),role.getRoTimeStart(),role.getRoTimeEnd(),role.getUsername());
     }
     @Override
-    public void delete(String rId){
+    public void delete(String rId,String username){
         String[]role;
         String[]role1;
         List<String> list = new ArrayList<>();
@@ -41,7 +41,7 @@ public class RoleServiceimpl implements RoleService {
         }
         for (String delrole:list){
             role=delrole.split(",");
-            if(rId.equals(role[0])){
+            if(rId.equals(role[0])&&username.equals(role[4])){
                 try {
                     list.remove(delrole);
                     FileWriter writer = new FileWriter(fileName);
@@ -69,7 +69,7 @@ public class RoleServiceimpl implements RoleService {
     }
     @Override
     public void update(String rId, Role role) {
-        delete(rId);
+        delete(rId, role.getUsername());
         executeUpdate(role.getRoID(),role.getRoName(),role.getRoTimeStart(),
                 role.getRoTimeEnd(),role.getUsername());
     }
