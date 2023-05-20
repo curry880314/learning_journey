@@ -365,6 +365,22 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String achTimeInput = achTime.getText();
+                String achIDInput = achID.getText();
+                String achNameInput = achName.getText();
+                String achLevelInput = achLevel.getText();
+                //String achTimeInput = achTime.getText();
+                String achMajorInput = achMajor.getText();
+
+                if (isEmpty(achIDInput) || isEmpty(achNameInput) || isEmpty(achLevelInput) || isEmpty(achTimeInput) || isEmpty(achMajorInput)) {
+                    alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+                if (!isValidTime(achTimeInput)) {
+                    alert("Hint", "Invalid achievement time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+
                 return new AchievementResult(achID.getText(),
                         achName.getText(),achLevel.getText(),
                         achTime.getText(),achMajor.getText());
@@ -374,6 +390,7 @@ public class Controller implements Initializable {
 
         Optional<AchievementResult> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent((AchievementResult results) -> {
+
             Achievement achievement = new AchievementServiceImpl().get(Integer.parseInt(achID.getText()),adminID);
             if(achievement != null){
                 alert("Hint","Number is 【" + results.tID + "】achievement data is exist，unable to add！",null, Alert.AlertType.ERROR);
@@ -386,8 +403,14 @@ public class Controller implements Initializable {
             }
         });
     }
-
-    public void changeTea(){
+    public boolean isEmpty(String value) {//判断内部是否为空
+        return value == null || value.trim().isEmpty();
+    }
+    public boolean isValidTime(String achTime) {//对输入的时间格式进行验证
+        String pattern = "^\\d{4}\\.\\d{2}\\.\\d{2}$";
+        return achTime.matches(pattern);
+    }
+    public void changeAch(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first!",null, Alert.AlertType.ERROR);
             return;
@@ -419,7 +442,7 @@ public class Controller implements Initializable {
 
                 TextField tID = new TextField(achievement.getAchID());
                 TextField tName = new TextField(achievement.getAchName());
-                TextField tSex = new TextField(achievement.getAchLevel());
+                TextField tLevel = new TextField(achievement.getAchLevel());
                 TextField tBirth = new TextField(achievement.getAchTime());
                 TextField tMajor = new TextField(achievement.getAchMajor());
 
@@ -428,18 +451,47 @@ public class Controller implements Initializable {
                 grid.add(new Label("Achievement:"), 0, 1);
                 grid.add(tName, 1, 1);
                 grid.add(new Label("Level:"), 0, 2);
-                grid.add(tSex, 1, 2);
+                grid.add(tLevel, 1, 2);
                 grid.add(new Label("Obtained time:"), 0, 3);
                 grid.add(tBirth, 1, 3);
                 grid.add(new Label("College:"), 0, 4);
                 grid.add(tMajor, 1, 4);
 
                 dialog.getDialogPane().setContent(grid);
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+                        String achTimeInput = tBirth.getText();
+                        String achIDInput = tID.getText();
+                        String achNameInput = tName.getText();
+                        String achLevelInput = tLevel.getText();
+                        String achMajorInput = tMajor.getText();
+                        Achievement achievement1=new AchievementServiceImpl().get(Integer.parseInt(achIDInput),adminID);
+
+                        if(achievement1!=null){
+                            alert("Hint", "ID duplication.", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        if (isEmpty(achIDInput) || isEmpty(achNameInput) || isEmpty(achLevelInput) || isEmpty(achTimeInput) || isEmpty(achMajorInput)) {
+                            alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        if (!isValidTime(achTimeInput)) {
+                            alert("Hint", "Invalid achievement time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+
+                        return new AchievementResult(tID.getText(),
+                                tName.getText(),tLevel.getText(),
+                                tBirth.getText(),tMajor.getText());
+                    }
+                    return null;
+                });
                 Optional<AchievementResult> results = dialog.showAndWait();
 
                 if(results.isPresent()){
+
                     Achievement ach = new Achievement(tID.getText(),
-                            tName.getText(),tSex.getText(),
+                            tName.getText(),tLevel.getText(),
                             tBirth.getText(),tMajor.getText());
                     new AchievementServiceImpl().update(adminID, ach);
                     alert("Hint","Successfully modified the number is【" + achievement.getAchID() + "】 achievement data！",null, Alert.AlertType.INFORMATION);
@@ -512,6 +564,19 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                String roIDInput = roID.getText();
+                String roNameInput = roName.getText();
+                String roTimeStartInput = roTimeStart.getText();
+                String roTimeEndInput = roTimeEnd.getText();
+
+                if (isEmpty(roIDInput) || isEmpty(roNameInput) || isEmpty(roTimeStartInput) || isEmpty(roTimeEndInput)) {
+                    alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                    return null;
+                }
+                if (!isValidTime(roTimeStartInput) || !isValidTime(roTimeEndInput)) {
+                    alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                    return null;
+                }
                 return new RoleResult(roID.getText(),
                         roName.getText(),roTimeStart.getText(),
                         roTimeEnd.getText());
@@ -579,11 +644,32 @@ public class Controller implements Initializable {
                 grid.add(rTimeEnd, 1, 3);
 
                 dialog.getDialogPane().setContent(grid);
+
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+                        String roIDInput = rID.getText();
+                        String roNameInput = rName.getText();
+                        String roTimeStartInput = rTimeStart.getText();
+                        String roTimeEndInput = rTimeEnd.getText();
+
+                        if (isEmpty(roIDInput) || isEmpty(roNameInput) || isEmpty(roTimeStartInput) || isEmpty(roTimeEndInput)) {
+                            alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        if (!isValidTime(roTimeStartInput) || !isValidTime(roTimeEndInput)) {
+                            alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
+                            return null;
+                        }
+                        return new RoleResult(rID.getText(),
+                                rName.getText(),rTimeStart.getText(),
+                                rTimeEnd.getText());
+                    }
+                    return null;
+                });
                 Optional<RoleResult> results = dialog.showAndWait();
 
                 if(results.isPresent()){
                     role = new Role(rID.getText(),rName.getText(),rTimeStart.getText(),rTimeEnd.getText(),username);
-
                     new RoleServiceimpl().update(result.get(), role);
                     alert("Hint","Successfully modified role number is【" + role.getRoID() + "】role data！",null, Alert.AlertType.INFORMATION);
                     refreshRoleTable();
