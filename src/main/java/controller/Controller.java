@@ -149,6 +149,7 @@ public class Controller implements Initializable {
 
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+
                 return new CourseResults(cID.getText(),cName.getText(),
                         cScore.getText(),cScore.getText(),
                         cStartTerm.getText(),cPeriod.getText(), cCredit.getText());
@@ -157,6 +158,20 @@ public class Controller implements Initializable {
         });
         Optional<CourseResults> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent((CourseResults results) -> {
+            if (results.cID.isEmpty() || results.cName.isEmpty() || results.cScore.isEmpty() ||
+                    results.cStartTerm.isEmpty() || results.cPeriod.isEmpty() || results.cCredit.isEmpty()) {
+                alert("Hint", "Please enter all required information.", null, Alert.AlertType.ERROR);
+                return;
+            }
+            if(!isValidCode(results.cID)){
+                alert("Hint", "ID must be EBU+4(0-9).", null, Alert.AlertType.ERROR);
+                return;
+            }
+            int score = Integer.parseInt(results.cScore);
+            if (score < 0 || score > 100) {
+                alert("Hint", "Score must be between 0 and 100.", null, Alert.AlertType.ERROR);
+                return;
+            }
             Course course = new CourseServiceImpl().get(results.cID);
             if(course != null){
                 alert("Hint","Course number is【" + results.cID + "】data which is exist，unable to add！",null, Alert.AlertType.INFORMATION);
@@ -191,6 +206,7 @@ public class Controller implements Initializable {
             }
             Course course = new CourseServiceImpl().get(result.get());
             if(null != course){
+
                 Dialog<CourseResults> dialog = new Dialog<>();
                 dialog.setTitle("Course Data");
                 dialog.setHeaderText(null);
@@ -212,9 +228,9 @@ public class Controller implements Initializable {
 
                 grid.add(new Label("Course Number:"), 0, 0);
                 grid.add(cID, 1, 0);
-                grid.add(new Label("Course Name:"), 0, 1);
+                grid.add(new Label("Score:"), 0, 1);
                 grid.add(cScore, 1, 1);
-                grid.add(new Label("Score:"), 0, 2);
+                grid.add(new Label("Course Name:"), 0, 2);
                 grid.add(cName, 1, 2);
                 grid.add(new Label("Opening Semester:"), 0, 3);
                 grid.add(cStartTerm, 1, 3);
@@ -224,16 +240,39 @@ public class Controller implements Initializable {
                 grid.add(cCredit, 1, 5);
 
                 dialog.getDialogPane().setContent(grid);
-                Optional<CourseResults> results = dialog.showAndWait();
 
-                if(results.isPresent()){
-                    course = new Course(cID.getText(),cName.getText(),cScore.getText(),cGradePointCol.getText(),
+
+                dialog.setResultConverter((ButtonType button) -> {
+                    if (button == ButtonType.OK) {
+
+                        return new CourseResults(cID.getText(),cName.getText(),
+                                cScore.getText(),cScore.getText(),
+                                cStartTerm.getText(),cPeriod.getText(), cCredit.getText());
+                    }
+                    return null;
+                });
+                Optional<CourseResults> optionalResult = dialog.showAndWait();
+                optionalResult.ifPresent((CourseResults results) ->{
+                    Course courseadd = new Course(cID.getText(),cName.getText(),cScore.getText(),cGradePointCol.getText(),
                             cStartTerm.getText(),cPeriod.getText(), cCredit.getText(), username);
-
+                    if (results.cID.isEmpty() || results.cName.isEmpty() || results.cScore.isEmpty() ||
+                            results.cStartTerm.isEmpty() || results.cPeriod.isEmpty() || results.cCredit.isEmpty()) {
+                        alert("Hint", "Please enter all required information.", null, Alert.AlertType.ERROR);
+                        return;
+                    }
+                    if(!isValidCode(results.cID)){
+                        alert("Hint", "ID must be EBU+4(0-9).", null, Alert.AlertType.ERROR);
+                        return;
+                    }
+                    int score = Integer.parseInt(results.cScore);
+                    if (score < 0 || score > 100) {
+                        alert("Hint", "Score must be between 0 and 100.", null, Alert.AlertType.ERROR);
+                        return;
+                    }
                     new CourseServiceImpl().update(result.get(), course);
                     alert("Hint","Successfully modified course number is【" + course.getcID() + "】course data！",null, Alert.AlertType.INFORMATION);
                     refreshCourseTable();
-                }
+                    });
             }else{
                 alert("Hint","There is no record of this course and it cannot be modified！",null, Alert.AlertType.ERROR);
             }
@@ -637,7 +676,6 @@ public class Controller implements Initializable {
      * Email change function in personal information
      */
     public void UpdateEmail(){
-        final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
             return;
@@ -682,6 +720,10 @@ public class Controller implements Initializable {
 
         }
 
+    }
+    public static boolean isValidCode(String code) {
+        String pattern = "^EBU\\d{4}$";
+        return code.matches(pattern);
     }
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
