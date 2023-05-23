@@ -9,7 +9,7 @@ public interface RoleService {
 
     void save(Role role);
 
-    void delete(String rId);
+    void delete(String rId,String username);
 
     void update(String rId, Role role);
 

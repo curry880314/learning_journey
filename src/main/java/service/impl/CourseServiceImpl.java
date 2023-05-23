@@ -56,7 +56,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void delete(String cId) {
+    public void delete(String cId,String username) {
         String[]course;
         String[]course1;
         List<String> list = new ArrayList<>();
@@ -71,7 +71,7 @@ public class CourseServiceImpl implements CourseService {
         }
             for (String delcourse:list){
              course=delcourse.split(",");
-            if(cId.equals(course[0])){
+            if(cId.equals(course[0])&&username.equals(course[7])){
                 try {
                     list.remove(delcourse);
                     FileWriter writer = new FileWriter(fileName);
@@ -100,7 +100,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void update(String cId, Course course) {
-        delete(cId);
+        delete(cId, course.getUsername());
         executeUpdate(course.getcID(),course.getcName(),course.getcScore(),
                 course.getcStartTerm(), course.getcPeriod(), course.getcCredit(),course.getUsername());
     }
