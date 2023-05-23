@@ -8,11 +8,19 @@ import java.awt.print.PrinterJob;
 import java.io.*;
 import java.util.ArrayList;
 
+
 /**
- * Implementation of Personal Information Service Layer
+ * Implementation of the PersonalInformationService interface.
  */
 public class PersonalInformationImpl implements PersonalInformationService {
     String fileName = "information/user.txt";
+
+    /**
+     * Get personal information based on the provided ID.
+     *
+     * @param ID the ID to search for
+     * @return the PersonalInformation object matching the ID, or null if not found
+     */
     public PersonalInformation getInformation(String ID){
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -27,7 +35,15 @@ public class PersonalInformationImpl implements PersonalInformationService {
         }
         return null;
     }
-    public void executeUpdate(String ID,String PhoneNumber,String Email) {
+
+    /**
+     * Updates the phone number and email of the personal information with the provided ID.
+     *
+     * @param ID          the ID of the personal information to update
+     * @param PhoneNumber the new phone number
+     * @param Email       the new email
+     */
+    public void executeUpdate(String ID, String PhoneNumber, String Email) {
         ArrayList<PersonalInformation> list = new ArrayList<>();
         try {
             PersonalInformation pi = getInformation(ID);
@@ -58,7 +74,6 @@ public class PersonalInformationImpl implements PersonalInformationService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 }
+

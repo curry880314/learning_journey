@@ -2,12 +2,26 @@ package service;
 
 import bean.PersonalInformation;
 
+
 /**
- * 个人信息的服务层
+ * The PersonalInformationService interface provides operations to manage personal information.
  */
 public interface PersonalInformationService {
+    /**
+     * Get the personal information for the provided ID.
+     *
+     * @param ID the ID of the user
+     * @return the PersonalInformation object associated with the ID, or null if not found
+     */
+    PersonalInformation getInformation(String ID);
 
-    public PersonalInformation getInformation(String ID);
-    public void executeUpdate(String ID,String PhoneNumber,String Email);
-
+    /**
+     * Updates the personal information for the provided ID with the given phone number and email.
+     *
+     * @param ID          the ID of the user
+     * @param PhoneNumber the new phone number to update
+     * @param Email       the new email to update
+     */
+    void executeUpdate(String ID, String PhoneNumber, String Email);
 }
+
