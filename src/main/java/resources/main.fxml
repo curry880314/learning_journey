@@ -62,7 +62,7 @@
                                     <children>
                                         <Button mnemonicParsing="false" onAction="#addAchievement" prefHeight="40.0" prefWidth="200.0" text="Add Achievements" />
                                         <Button mnemonicParsing="false" onAction="#changeAch" prefHeight="40.0" prefWidth="200.0" text="Update Achievements" />
-                                        <Button mnemonicParsing="false" onAction="#deleteTea" prefHeight="40.0" prefWidth="200.0" text="Delete Achievements" />
+                                        <Button mnemonicParsing="false" onAction="#deleteAch" prefHeight="40.0" prefWidth="200.0" text="Delete Achievements" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets />

@@ -9,6 +9,12 @@ import java.util.List;
 
 public class CourseServiceImpl implements CourseService {
     String fileName = "information/course.txt";
+    /**
+     * Calculates the grade point based on the course score.
+     *
+     * @param score Course score
+     * @return Grade point
+     */
     public String CalculateGradePoint(String score) {
         float courseScore = Float.parseFloat(score);
         if(courseScore>=90)
@@ -34,6 +40,17 @@ public class CourseServiceImpl implements CourseService {
         else
             return "0";
     }
+    /**
+     * Executes an update operation by adding a new course entry to the file.
+     *
+     * @param cID         Course ID
+     * @param cName       Course name
+     * @param cScore      Course score
+     * @param cStartTerm  Course start term
+     * @param cPeriod     Course period
+     * @param cCredit     Course credit
+     * @param username    User name
+     */
     public void executeUpdate(String cID, String cName, String cScore, String cStartTerm,
                              String cPeriod, String cCredit,String username) {
                     try {
@@ -49,12 +66,22 @@ public class CourseServiceImpl implements CourseService {
                     }
 
         }
+    /**
+     * Saves a course by executing the update operation.
+     *
+     * @param course Course object to be saved
+     */
     @Override
     public void save(Course course) {
         executeUpdate(course.getcID(),course.getcName(),course.getcScore(),
                 course.getcStartTerm(), course.getcPeriod(), course.getcCredit(),course.getUsername());
     }
-
+    /**
+     * Deletes a course entry based on the course ID and username.
+     *
+     * @param cId      Course ID
+     * @param username User name
+     */
     @Override
     public void delete(String cId,String username) {
         String[]course;
@@ -97,14 +124,24 @@ public class CourseServiceImpl implements CourseService {
                 }
             }
     }
-
+    /**
+     * Updates a course entry based on the course ID and Course object.
+     *
+     * @param cId    Course ID
+     * @param course Updated Course object
+     */
     @Override
     public void update(String cId, Course course) {
         delete(cId, course.getUsername());
         executeUpdate(course.getcID(),course.getcName(),course.getcScore(),
                 course.getcStartTerm(), course.getcPeriod(), course.getcCredit(),course.getUsername());
     }
-
+    /**
+     * Retrieves a course based on the course ID.
+     *
+     * @param cId Course ID
+     * @return Course object if found, null otherwise
+     */
     @Override
     public Course get(String cId) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -121,7 +158,12 @@ public class CourseServiceImpl implements CourseService {
         }
        return null;
     }
-
+    /**
+     * Retrieves all courses associated with a specific username.
+     *
+     * @param username User name
+     * @return List of Course objects associated with the username
+     */
     @Override
     public List<Course> getAll(String username) {
         List<Course> list = new ArrayList<>();
