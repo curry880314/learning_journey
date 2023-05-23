@@ -3,16 +3,24 @@ package bean;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Course {
+    /** ID **/
     private final SimpleStringProperty cID;
+    /** Name **/
     private final SimpleStringProperty cName;
+    /** Score **/
     private final SimpleStringProperty cScore;
+    /** Grade Point **/
     private final SimpleStringProperty cGradePoint;
+    /** Start Term **/
     private final SimpleStringProperty cStartTerm;
+    /** Period **/
     private final SimpleStringProperty cPeriod;
+    /** Credit **/
     private final SimpleStringProperty cCredit;
+    /** Username **/
     private final SimpleStringProperty username;
 
-    public Course(String cID, String cName,String cScore, String cGradePoint, String cStartTerm, String cPeriod, String cCredit, String username) {
+    public Course(String cID, String cName, String cScore, String cGradePoint, String cStartTerm, String cPeriod, String cCredit, String username) {
         this.cID = new SimpleStringProperty(cID);
         this.cScore = new SimpleStringProperty(cScore);
         this.cName = new SimpleStringProperty(cName);
@@ -20,8 +28,10 @@ public class Course {
         this.cStartTerm = new SimpleStringProperty(cStartTerm);
         this.cPeriod = new SimpleStringProperty(cPeriod);
         this.cCredit = new SimpleStringProperty(cCredit);
-        this.username=new SimpleStringProperty(username);
+        this.username = new SimpleStringProperty(username);
     }
+
+    // Getter and Setter methods for each property
 
     public String getUsername() {
         return username.get();
@@ -118,10 +128,12 @@ public class Course {
     public void setcCredit(String cCredit) {
         this.cCredit.set(cCredit);
     }
+
+    @Override
     public String toString() {
         return "Course{" +
-                "courseID=" + cID +
-                ", courseName=" + cName +
+                "cID=" + cID +
+                ", cName=" + cName +
                 ", cScore=" + cScore +
                 ", cGradePoint=" + cGradePoint +
                 ", cStartTerm=" + cStartTerm +
@@ -130,5 +142,4 @@ public class Course {
                 ", username=" + username +
                 '}';
     }
-
 }

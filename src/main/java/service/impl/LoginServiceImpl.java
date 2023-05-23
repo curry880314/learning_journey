@@ -1,19 +1,16 @@
 package service.impl;
-
 import service.LoginService;
-
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
-
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 public class LoginServiceImpl implements LoginService {
+    /**
+     * Retrieves the username associated with the given ID and password.
+     *
+     * @param ID       User ID
+     * @param password User password
+     * @return Username associated with the given ID and password
+     */
     @Override
     public String getUser(int ID,int password) {
         String username="";

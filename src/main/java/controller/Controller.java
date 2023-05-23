@@ -99,13 +99,34 @@ public class Controller implements Initializable {
     @FXML
     TableColumn moPositionCol;
 
-    String adminID="0";
-    String username="";
-    List<Course>courses=new ArrayList<>();
+    // Default admin ID
+    String adminID = "0";
+
+    // User's username
+    String username = "";
+
+    // List to store courses
+    List<Course> courses = new ArrayList<>();
+
+    // ImageView for displaying an image
     ImageView imageView = new ImageView();
 
+    // Regular expression for email validation
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
-
+    // Regular expression for phone number validation
+    private static final String PHONE_NUMBER_REGEX = "^1[3456789]\\d{9}$";
+    /**
+     * Add Course.
+     * This method allows the user to add a course to the system.
+     * If the admin ID is "0", it displays an error message to log in first.
+     * It opens a dialog window for the user to enter the course information.
+     * The user needs to provide the course number, course name, score, opening semester, duration, and credit.
+     * After validating the input, it creates a CourseResults object with the entered information.
+     * If any required field is empty or the input is invalid, it displays an error message.
+     * Otherwise, it saves the course using the CourseServiceImpl and displays a success message.
+     * Finally, it refreshes the course table.
+     */
     public void addCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -183,7 +204,11 @@ public class Controller implements Initializable {
         });
     }
 
-
+    /**
+     * Modify the course information based on the entered course number.
+     * If the course exists, a dialog will be displayed to enter the modified information.
+     * If the course does not exist, an error message will be displayed.
+     */
     public void changeCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -275,6 +300,13 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Deletes a course based on the given course number.
+     * If the user is not logged in as an admin, an error alert will be displayed.
+     * A dialog will prompt the user to enter the course number to delete.
+     * If the course number is valid and exists in the database, it will be deleted.
+     * After successful deletion, an information alert will be displayed, and the course table will be refreshed.
+     */
     public void deleteCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -302,7 +334,11 @@ public class Controller implements Initializable {
         }
     }
 
-
+    /**
+     * Calculate the GPA (Grade Point Average) based on the courses' scores and credits.
+     *
+     * @return True if the GPA calculation is successful.
+     */
     public  boolean calculateGPA(){
         float sum = 0,creditSum = 0;
         for (Course score:courses) {
@@ -315,7 +351,26 @@ public class Controller implements Initializable {
     }
 
 
+    /**
 
+     Add Achievement.
+
+     This method allows the user to add an achievement to the system.
+
+     If the admin ID is "0", it displays an error message to log in first.
+
+     It opens a dialog window for the user to enter the achievement information.
+
+     The user needs to provide the achievement number, achievement name, level, obtained time, and college.
+
+     After validating the input, it creates an AchievementResult object with the entered information.
+
+     If the achievement with the same number already exists, it displays an error message.
+
+     Otherwise, it saves the achievement using the AchievementServiceImpl and displays a success message.
+
+     Finally, it refreshes the achievement table.
+     */
     public void addAchievement() {
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -392,13 +447,30 @@ public class Controller implements Initializable {
             }
         });
     }
-    public boolean isEmpty(String value) {
+    /**
+     * Check if the given value is empty or consists only of whitespace characters.
+     *
+     * @param value The value to check for emptiness.
+     * @return True if the value is empty or consists only of whitespace characters, false otherwise.
+     */
+    public boolean isEmpty(String value) {//判断内部是否为空
         return value == null || value.trim().isEmpty();
     }
-    public boolean isValidTime(String achTime) {
+    /**
+     * Validate the format of the input time.
+     *
+     * @param achTime The time to validate.
+     * @return True if the time has a valid format, false otherwise.
+     */
+    public boolean isValidTime(String achTime) {//对输入的时间格式进行验证
         String pattern = "^\\d{4}\\.\\d{2}\\.\\d{2}$";
         return achTime.matches(pattern);
     }
+    /**
+     * Modify the achievement information based on the entered achievement number.
+     * If the achievement exists, a dialog will be displayed to enter the modified information.
+     * If the achievement does not exist, an error message will be displayed.
+     */
     public void changeAch(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first!",null, Alert.AlertType.ERROR);
@@ -493,8 +565,14 @@ public class Controller implements Initializable {
             }
         }}
 
-
-    public void deleteTea(){
+    /**
+     * Deletes an achievement based on the given achievement number.
+     * If the user is not logged in as an admin, an error alert will be displayed.
+     * A dialog will prompt the user to enter the achievement number to delete.
+     * If the achievement number is valid and exists in the database, it will be deleted.
+     * After successful deletion, an information alert will be displayed, and the achievement table will be refreshed.
+     */
+    public void deleteAch(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
             return;
@@ -720,26 +798,25 @@ public class Controller implements Initializable {
         // Create a text input dialog to enter the role number
         TextInputDialog d = new TextInputDialog();
         d.setTitle("Delete Role");
-        d.setHeaderText("Enter the role number to delete:");
+        d.setHeaderText("Enter the role number to delete：");
         d.setContentText("Role Number:");
         Optional<String> result = d.showAndWait();
 
-        if (result.isPresent()) {
-            if (checkIdIllegal(result.get())) {
+        if (result.isPresent()){
+            if(checkIdIllegal(result.get())){
                 return;
             }
-            Role role = new RoleServiceimpl().get(result.get(), adminID);
-            if (null != role) {
-                new RoleServiceimpl().delete(role.getRoID(), adminID);
-                alert("Hint", "Successfully delete with number is【" + role.getRoID() + "】Role Data!", null, Alert.AlertType.INFORMATION);
+            Role role = new RoleServiceimpl().get(result.get(),adminID);
+            if(null != role){
+                new RoleServiceimpl().delete(role.getRoID(),adminID);
+                alert("Hint","Successfully delete with number is【" + role.getRoID() + "】Role Data！",null, Alert.AlertType.INFORMATION);
                 refreshRoleTable();
-            } else {
-                alert("Hint", "There is no record of this role and it cannot be deleted!", null, Alert.AlertType.ERROR);
+            }else {
+                alert("Hint","There is no record of this role and it cannot be deleted！",null, Alert.AlertType.ERROR);
             }
         }
+
     }
-
-
 
     /**
      * Displays a dialog box to update the phone number.
@@ -1159,6 +1236,10 @@ public class Controller implements Initializable {
 
 
 
+    /**
+     * Performs the logout functionality. Displays a confirmation dialog to confirm the logout action.
+     * Clears the displayed data and resets the UI to the initial state upon successful logout.
+     */
     public  void logOut(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Please confirm if you want to log out:");
@@ -1178,12 +1259,12 @@ public class Controller implements Initializable {
         } else {
             alert("Hint","Canceled Successfully",null, Alert.AlertType.INFORMATION);
         }
-
-
     }
 
-
-
+    /**
+     * Performs the login functionality. Displays a dialog for the user to enter their account and password.
+     * Validates the input and logs in the user if the credentials are correct.
+     */
     public void login(){
         Dialog<LoginResults> dialog = new Dialog<>();
         dialog.setTitle("Login");
@@ -1277,6 +1358,15 @@ public class Controller implements Initializable {
     }
 
 
+    /**
+     * Creates and returns a TableCell with a Text graphic for displaying MediaPlayer.Status as a String value in a TableColumn.
+     * The TableCell is centered, and its height is set to USE_COMPUTED_SIZE.
+     * The Text's wrapping width is bound to the widthProperty of the given TableColumn.
+     * The Text's textProperty is bound to the itemProperty of the TableCell.
+     *
+     * @param tc The TableColumn to which the TableCell will be added.
+     * @return The created TableCell with a Text graphic.
+     */
     public TableCell<MediaPlayer.Status,String> getCell(TableColumn tc){
         TableCell<MediaPlayer.Status,String> cell = new TableCell<>();
         Text text = new Text();
@@ -1287,6 +1377,11 @@ public class Controller implements Initializable {
         text.textProperty().bind(cell.itemProperty());
         return cell;
     }
+    /**
+     * Refreshes the Course table view with updated data.
+     * Retrieves the courses from the service layer and populates the table view with the data.
+     * Configures cell factories for specific columns to customize their appearance.
+     */
     private void refreshCourseTable(){
         cIdCol.setCellValueFactory(new PropertyValueFactory<>("cID"));
         cNameCol.setCellValueFactory(new PropertyValueFactory<>("cName"));
@@ -1305,11 +1400,12 @@ public class Controller implements Initializable {
             data.add(course);
         }
         courseTableView.setItems(data);
-
-
-
     }
-
+    /**
+     * Refreshes the Achievement table view with updated data.
+     * Retrieves the achievements from the service layer and populates the table view with the data.
+     * Configures cell factories for specific columns to customize their appearance.
+     */
     private void refreshAchTable(){
         achIDCol.setCellValueFactory(new PropertyValueFactory<>("achID"));
         achNameCol.setCellValueFactory(new PropertyValueFactory<>("achName"));
@@ -1436,6 +1532,13 @@ public class Controller implements Initializable {
         ModuleTableView.setItems(data);
     }
 
+    /**
+     * Checks if the given ID is illegal.
+     * The ID is considered illegal if its length is greater than or equal to 10 characters.
+     * If the ID is illegal, an error alert will be displayed.
+     * @param sID the ID to be checked
+     * @return true if the ID is illegal, false otherwise
+     */
     private boolean checkIdIllegal(String sID){
         if(sID.length() >= 10){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -1447,7 +1550,14 @@ public class Controller implements Initializable {
         }
         return false;
     }
-
+    /**
+     * Display an alert dialog.
+     *
+     * @param title   The title of the alert dialog.
+     * @param content The content text of the alert dialog.
+     * @param header  The header text of the alert dialog.
+     * @param type    The type of the alert dialog.
+     */
     private void alert(String title, String content, String header, Alert.AlertType type){
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -1455,7 +1565,14 @@ public class Controller implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    /**
 
+     Represents a result of a course.
+
+     Contains information such as the course ID, course name, course score,
+
+     course grade point, course start term, course period, and course credit.
+     */
     private static class CourseResults{
         private String cID;
         private String cName;
@@ -1464,8 +1581,18 @@ public class Controller implements Initializable {
         private String cStartTerm;
         private String cPeriod;
         private String cCredit;
+        /**
 
-        public CourseResults(String cID, String cMajor, String cName, String cType, String cStartTerm, String cPeriod, String cCredit) {
+         Constructs a new CourseResults object with the specified details.
+         @param cID the ID of the course
+         @param cMajor the major of the course
+         @param cName the name of the course
+         @param cType the type of the course
+         @param cStartTerm the start term of the course
+         @param cPeriod the period of the course
+         @param cCredit the credit of the course
+         */
+         public CourseResults(String cID, String cMajor, String cName, String cType, String cStartTerm, String cPeriod, String cCredit) {
             this.cID = cID;
             this.cName = cMajor;
             this.cScore = cName;
@@ -1481,21 +1608,47 @@ public class Controller implements Initializable {
             this.confirm = confirm;
         }
     }
+    /**
+
+     Represents the result of a login operation.
+
+     Contains the student ID and password.
+     */
     private static class LoginResults{
         private String stuID;
         private String password;
+        /**
 
+         Represents the result of a login operation.
+
+         Contains the student ID and password.
+         */
         public LoginResults(String stuID,String password){
             this.stuID=stuID;
             this.password=password;
         }
     }
+    /**
+
+     Represents a result of an achievement.
+
+     Contains information such as the ID, name, sex, birthdate, and major of the achiever.
+     */
     private static class AchievementResult {
         String tID;
         String tName;
         String tSex;
         String tBirth;
         String tMajor;
+        /**
+
+         Constructs a new AchievementResult object with the specified details.
+         @param tID the ID of the achiever
+         @param tName the name of the achiever
+         @param tSex the sex of the achiever
+         @param tBirth the birthdate of the achiever
+         @param tMajor the major of the achiever
+         */
         public AchievementResult(String tID, String tName, String tSex, String tBirth, String tMajor) {
             this.tID = tID;
             this.tName = tName;

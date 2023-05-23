@@ -14,6 +14,16 @@ import java.util.List;
 
 public class AchievementServiceImpl implements AchievementService {
     String filename="information/achievement.txt";
+    /**
+     * Executes an update operation.
+     *
+     * @param ID       User ID
+     * @param achID    Achievement ID
+     * @param achName  Achievement name
+     * @param achLevel Achievement level
+     * @param achTime  Achievement time
+     * @param achMajor Achievement major
+     */
     public void executeUpdate(String ID, String achID,String achName, String achLevel,String achTime,String achMajor) {
         try {
             BufferedReader in=new BufferedReader(new FileReader(filename));
@@ -46,7 +56,10 @@ public class AchievementServiceImpl implements AchievementService {
     }
 
     /**
-     *根据ID添加成就
+     * Adds an achievement based on the ID.
+     *
+     * @param ID  User ID
+     * @param ach Achievement object to be saved
      */
     @Override
     public void save(String ID, Achievement ach) {
@@ -62,7 +75,12 @@ public class AchievementServiceImpl implements AchievementService {
             System.err.println("没有找到文件"+e.getMessage());
         }
     }
-
+    /**
+     * Deletes an achievement based on adminID and achID.
+     *
+     * @param adminID Admin ID
+     * @param achID   Achievement ID
+     */
     @Override
     public void delete(String adminID, String achID ){
         try {
@@ -89,13 +107,24 @@ public class AchievementServiceImpl implements AchievementService {
 
         }
     }
-
+    /**
+     * Updates an achievement based on the achievement ID.
+     *
+     * @param achID Achievement ID
+     * @param ach   Updated Achievement object
+     */
     @Override
     public void update(String achID, Achievement ach) {
         executeUpdate(achID,ach.getAchID(),ach.getAchName(),ach.getAchLevel(),
                 ach.getAchTime(), ach.getAchMajor());
     }
-
+    /**
+     * Retrieves an achievement based on the achievement ID and admin ID.
+     *
+     * @param achID Achievement ID
+     * @param admin Admin ID
+     * @return Achievement object if found, null otherwise
+     */
     @Override
     public Achievement get(int achID, String admin) {
         try {
@@ -121,7 +150,12 @@ public class AchievementServiceImpl implements AchievementService {
         }
         return null;
     }
-
+    /**
+     * Retrieves a list of achievements based on the admin ID.
+     *
+     * @param adminID Admin ID
+     * @return List of Achievement objects
+     */
     @Override
     public List<Achievement> getAll(String adminID) {
         List<Achievement> achievement = new ArrayList<>();

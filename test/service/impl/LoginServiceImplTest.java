@@ -8,8 +8,13 @@ class LoginServiceImplTest {
 
     @Test
     void getUser() {
-        LoginServiceImpl loginService=new LoginServiceImpl();
-        String line=loginService.getUser(2020213301,12345);
-        assertEquals("2020213301",line);
+        // Creating an instance of LoginServiceImpl
+        LoginServiceImpl loginService = new LoginServiceImpl();
+
+        // Calling the getUser method with the specified ID and password
+        String line = loginService.getUser(2020213301, 12345);
+
+        // Asserting that the returned username is as expected
+        assertEquals("2020213301", line);
     }
 }
