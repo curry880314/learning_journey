@@ -105,9 +105,7 @@ public class Controller implements Initializable {
     ImageView imageView = new ImageView();
 
 
-    /**
-     * 添加课程
-     */
+
     public void addCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -185,9 +183,7 @@ public class Controller implements Initializable {
         });
     }
 
-    /**
-     * 更新课程
-     */
+
     public void changeCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -279,9 +275,6 @@ public class Controller implements Initializable {
         }
     }
 
-    /**
-     * 删除课程
-     */
     public void deleteCourse(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -300,7 +293,7 @@ public class Controller implements Initializable {
             }
             Course course = new CourseServiceImpl().get(result.get());
             if(null != course){
-                new CourseServiceImpl().delete(course.getcID());
+                new CourseServiceImpl().delete(course.getcID(),adminID);
                 alert("Hint","Successfully delete with number is【" + course.getcID() + "】Course Data！",null, Alert.AlertType.INFORMATION);
                 refreshCourseTable();
             }else {
@@ -309,9 +302,7 @@ public class Controller implements Initializable {
         }
     }
 
-    /**
-     * 计算GPA
-     */
+
     public  boolean calculateGPA(){
         float sum = 0,creditSum = 0;
         for (Course score:courses) {
@@ -324,9 +315,7 @@ public class Controller implements Initializable {
     }
 
 
-    /**
-     * 添加成就
-     */
+
     public void addAchievement() {
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
@@ -403,10 +392,10 @@ public class Controller implements Initializable {
             }
         });
     }
-    public boolean isEmpty(String value) {//判断内部是否为空
+    public boolean isEmpty(String value) {
         return value == null || value.trim().isEmpty();
     }
-    public boolean isValidTime(String achTime) {//对输入的时间格式进行验证
+    public boolean isValidTime(String achTime) {
         String pattern = "^\\d{4}\\.\\d{2}\\.\\d{2}$";
         return achTime.matches(pattern);
     }
@@ -531,28 +520,42 @@ public class Controller implements Initializable {
         }
     }
 
-    public void addRole(){
-        if(adminID.equals("0")) {
-            alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
+    /**
+     * Displays a dialog box to enter role information and adds a new role.
+     * If the admin is not logged in, an error message is shown.
+     * The role information includes role number, name, start time, and end time.
+     * Validates the entered information and performs necessary checks before adding the role.
+     * Displays appropriate messages based on the outcome of the operation.
+     * Refreshes the role table after adding a new role.
+     */
+    public void addRole() {
+        // Check if the admin is logged in
+        if (adminID.equals("0")) {
+            alert("Hint", "Please log in first", null, Alert.AlertType.ERROR);
             return;
         }
+
+        // Create a dialog box to enter role information
         Dialog<RoleResult> dialog = new Dialog<>();
         dialog.setTitle("Add Role");
-        dialog.setHeaderText("Enter the role information to be added below:：");
+        dialog.setHeaderText("Enter the role information to be added below:");
 
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
+        // Create a grid to layout the input fields
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20,60,10,10));
+        grid.setPadding(new Insets(20, 60, 10, 10));
 
+        // Create text fields for role information
         TextField roID = new TextField();
         TextField roName = new TextField();
         TextField roTimeStart = new TextField();
         TextField roTimeEnd = new TextField();
 
+        // Add labels and text fields to the grid
         grid.add(new Label("Number:"), 0, 0);
         grid.add(roID, 1, 0);
         grid.add(new Label("Role:"), 0, 1);
@@ -562,8 +565,10 @@ public class Controller implements Initializable {
         grid.add(new Label("TimeEnd:"), 0, 3);
         grid.add(roTimeEnd, 1, 3);
 
+        // Set the grid as the content of the dialog
         dialog.getDialogPane().setContent(grid);
 
+        // Define how the dialog results are converted
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
                 String roIDInput = roID.getText();
@@ -579,46 +584,55 @@ public class Controller implements Initializable {
                     alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
                     return null;
                 }
-                return new RoleResult(roID.getText(),
-                        roName.getText(),roTimeStart.getText(),
-                        roTimeEnd.getText());
+                return new RoleResult(roID.getText(), roName.getText(), roTimeStart.getText(), roTimeEnd.getText());
             }
             return null;
         });
 
+        // Show the dialog and wait for user input
         Optional<RoleResult> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent((RoleResult results) -> {
-            Role role = new RoleServiceimpl().get(results.rID,adminID);
-            if(role != null){
-                alert("Hint","Role number is【" + results.rID + "】data which is exist，unable to add！",null, Alert.AlertType.INFORMATION);
-            }else{
-                new RoleServiceimpl().save(new Role(results.rID, results.rName, results.rTimeStart,
-                        results.rTimeEnd,username));
+            Role role = new RoleServiceimpl().get(results.rID, adminID);
+            if (role != null) {
+                alert("Hint", "Role number is【" + results.rID + "】data which is exist, unable to add!", null, Alert.AlertType.INFORMATION);
+            } else {
+                new RoleServiceimpl().save(new Role(results.rID, results.rName, results.rTimeStart, results.rTimeEnd, username));
 
-                alert("Hint","Successfully saved role number is【" + results.rID + "】role data！",null, Alert.AlertType.INFORMATION);
+                alert("Hint", "Successfully saved role number is【" + results.rID + "】role data!", null, Alert.AlertType.INFORMATION);
                 refreshRoleTable();
             }
         });
     }
 
-    public void changeRole(){
-        if(adminID.equals("0")) {
-            alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
+    /**
+     * Displays a dialog box to modify role information.
+     * If the admin is not logged in, an error message is shown.
+     * Prompts the user to enter the role number to be modified.
+     * Validates the entered role number and performs necessary checks before modifying the role.
+     * Displays appropriate messages based on the outcome of the operation.
+     * Refreshes the role table after modifying a role.
+     */
+    public void changeRole() {
+        // Check if the admin is logged in
+        if (adminID.equals("0")) {
+            alert("Hint", "Please log in first", null, Alert.AlertType.ERROR);
             return;
         }
 
+        // Create a text input dialog to enter the role number
         TextInputDialog d = new TextInputDialog();
         d.setTitle("Modify Role Information");
-        d.setHeaderText("Enter the role number to modify the information：");
+        d.setHeaderText("Enter the role number to modify the information:");
         d.setContentText("Role Number:");
         Optional<String> result = d.showAndWait();
 
-        if(result.isPresent()){
-            if(checkIdIllegal(result.get())){
+        if (result.isPresent()) {
+            if (checkIdIllegal(result.get())) {
                 return;
             }
-            Role role = new RoleServiceimpl().get(result.get(),adminID);
-            if(null != role){
+            Role role = new RoleServiceimpl().get(result.get(), adminID);
+            if (null != role) {
+                // Create a dialog box to display and modify role information
                 Dialog<RoleResult> dialog = new Dialog<>();
                 dialog.setTitle("Role Data");
                 dialog.setHeaderText(null);
@@ -626,16 +640,19 @@ public class Controller implements Initializable {
                 DialogPane dialogPane = dialog.getDialogPane();
                 dialogPane.getButtonTypes().addAll(ButtonType.OK);
 
+                // Create a grid to layout the input fields
                 GridPane grid = new GridPane();
                 grid.setHgap(10);
                 grid.setVgap(10);
-                grid.setPadding(new Insets(20,60,10,10));
+                grid.setPadding(new Insets(20, 60, 10, 10));
 
+                // Create text fields for role information
                 TextField rID = new TextField(role.getRoID());
                 TextField rName = new TextField(role.getRoName());
                 TextField rTimeStart = new TextField(role.getRoTimeStart());
                 TextField rTimeEnd = new TextField(role.getRoTimeEnd());
 
+                // Add labels and text fields to the grid
                 grid.add(new Label("Role Number:"), 0, 0);
                 grid.add(rID, 1, 0);
                 grid.add(new Label("Role Name:"), 0, 1);
@@ -645,8 +662,10 @@ public class Controller implements Initializable {
                 grid.add(new Label("TimeEnd:"), 0, 3);
                 grid.add(rTimeEnd, 1, 3);
 
+                // Set the grid as the content of the dialog
                 dialog.getDialogPane().setContent(grid);
 
+                // Define how the dialog results are converted
                 dialog.setResultConverter((ButtonType button) -> {
                     if (button == ButtonType.OK) {
                         String roIDInput = rID.getText();
@@ -662,173 +681,259 @@ public class Controller implements Initializable {
                             alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
                             return null;
                         }
-                        return new RoleResult(rID.getText(),
-                                rName.getText(),rTimeStart.getText(),
-                                rTimeEnd.getText());
+                        return new RoleResult(rID.getText(), rName.getText(), rTimeStart.getText(), rTimeEnd.getText());
                     }
                     return null;
                 });
+
+                // Show the dialog and wait for user input
                 Optional<RoleResult> results = dialog.showAndWait();
 
-                if(results.isPresent()){
-                    role = new Role(rID.getText(),rName.getText(),rTimeStart.getText(),rTimeEnd.getText(),username);
+                if (results.isPresent()) {
+                    role = new Role(rID.getText(), rName.getText(), rTimeStart.getText(), rTimeEnd.getText(), username);
                     new RoleServiceimpl().update(result.get(), role);
-                    alert("Hint","Successfully modified role number is【" + role.getRoID() + "】role data！",null, Alert.AlertType.INFORMATION);
+                    alert("Hint", "Successfully modified role number is【" + role.getRoID() + "】role data!", null, Alert.AlertType.INFORMATION);
                     refreshRoleTable();
                 }
-            }else{
-                alert("Hint","There is no record of this role and it cannot be modified！",null, Alert.AlertType.ERROR);
+            } else {
+                alert("Hint", "There is no record of this role and it cannot be modified!", null, Alert.AlertType.ERROR);
             }
         }
-
     }
 
-    public void deleteRole(){
-        if(adminID.equals("0")) {
-            alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
+
+    /**
+     * Displays a dialog box to delete a role.
+     * If the admin is not logged in, an error message is shown.
+     * Prompts the user to enter the role number to be deleted.
+     * Validates the entered role number and performs necessary checks before deleting the role.
+     * Displays appropriate messages based on the outcome of the operation.
+     * Refreshes the role table after deleting a role.
+     */
+    public void deleteRole() {
+        // Check if the admin is logged in
+        if (adminID.equals("0")) {
+            alert("Hint", "Please log in first", null, Alert.AlertType.ERROR);
             return;
         }
 
+        // Create a text input dialog to enter the role number
         TextInputDialog d = new TextInputDialog();
         d.setTitle("Delete Role");
-        d.setHeaderText("Enter the role number to delete：");
+        d.setHeaderText("Enter the role number to delete:");
         d.setContentText("Role Number:");
         Optional<String> result = d.showAndWait();
 
-        if (result.isPresent()){
-            if(checkIdIllegal(result.get())){
+        if (result.isPresent()) {
+            if (checkIdIllegal(result.get())) {
                 return;
             }
-            Role role = new RoleServiceimpl().get(result.get(),adminID);
-            if(null != role){
-                new RoleServiceimpl().delete(role.getRoID());
-                alert("Hint","Successfully delete with number is【" + role.getRoID() + "】Role Data！",null, Alert.AlertType.INFORMATION);
+            Role role = new RoleServiceimpl().get(result.get(), adminID);
+            if (null != role) {
+                new RoleServiceimpl().delete(role.getRoID(), adminID);
+                alert("Hint", "Successfully delete with number is【" + role.getRoID() + "】Role Data!", null, Alert.AlertType.INFORMATION);
                 refreshRoleTable();
-            }else {
-                alert("Hint","There is no record of this role and it cannot be deleted！",null, Alert.AlertType.ERROR);
+            } else {
+                alert("Hint", "There is no record of this role and it cannot be deleted!", null, Alert.AlertType.ERROR);
             }
         }
-
     }
 
+
+
     /**
-     * Phone number change function in personal information
+     * Displays a dialog box to update the phone number.
+     * If the admin is not logged in, an error message is shown.
+     * Prompts the user to enter the new phone number.
+     * Validates the entered phone number and performs necessary checks before updating it.
+     * Displays appropriate messages based on the outcome of the operation.
+     * Refreshes the personal information after updating the phone number.
      */
-    public void UpdatePhoneNum(){
-        if(adminID.equals("0")) {
-            alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
+    public void UpdatePhoneNum() {
+        if (adminID.equals("0")) {
+            alert("Hint", "Please log in first", null, Alert.AlertType.ERROR);
             return;
         }
 
+        // Create a dialog box to display and update the phone number
         Dialog<PersonalInformation> dialog = new Dialog<>();
         dialog.setTitle("Phone Number");
         dialog.setHeaderText(null);
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20,60,10,10));
+        grid.setPadding(new Insets(20, 60, 10, 10));
         DialogPane dialogPane = dialog.getDialogPane();
-        dialogPane.getButtonTypes().addAll(ButtonType.OK,ButtonType.CANCEL);
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        // Create labels and text fields for old and new phone numbers
         Label OldPhoneNumber = new Label(new PersonalInformationImpl().getInformation(adminID).phoneNumber);
         TextField NewPhoneNumber = new TextField();
+
+        // Add labels and text fields to the grid
         grid.add(new Label("Old Phone Number:"), 0, 0);
         grid.add(OldPhoneNumber, 1, 0);
         grid.add(new Label("New Phone Number:"), 0, 1);
         grid.add(NewPhoneNumber, 1, 1);
+
+        // Set the grid as the content of the dialog
         dialog.getDialogPane().setContent(grid);
+
+        // Define how the dialog results are converted
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
-                String Phonenumber=NewPhoneNumber.getText();
-                if(!isValidPhoneNumber(Phonenumber)){
-                    alert("Hint","Phone number is wrong format",null, Alert.AlertType.WARNING);
+                String phoneNumber = NewPhoneNumber.getText();
+                if (!isValidPhoneNumber(phoneNumber)) {
+                    alert("Hint", "Phone number is in the wrong format", null, Alert.AlertType.WARNING);
                     return null;
                 }
-                return new PersonalInformation(adminID,"","","","","","","");
+                return new PersonalInformation(adminID, "", "", "", "", "", "", phoneNumber);
             }
             return null;
         });
+
+        // Show the dialog and wait for user input
         Optional<PersonalInformation> results = dialog.showAndWait();
 
-        if(results.isPresent()){
+        if (results.isPresent()) {
             PersonalInformationImpl PII = new PersonalInformationImpl();
-            PII.executeUpdate(adminID,NewPhoneNumber.getText(),PII.getInformation(adminID).email);
+            PII.executeUpdate(adminID, NewPhoneNumber.getText(), PII.getInformation(adminID).email);
             refreshPersonalInformation();
-            alert("Hint","Successfully modified Phone number is【" + NewPhoneNumber.getText() + "】！",null, Alert.AlertType.INFORMATION);
+            alert("Hint", "Successfully modified Phone number is【" + NewPhoneNumber.getText() + "】!", null, Alert.AlertType.INFORMATION);
         }
     }
 
+
+
     /**
-     * Email change function in personal information
+     * Displays a dialog box to update the email address.
+     * If the admin is not logged in, an error message is shown.
+     * Prompts the user to enter the new email address.
+     * Validates the entered email address and performs necessary checks before updating it.
+     * Displays appropriate messages based on the outcome of the operation.
+     * Refreshes the personal information after updating the email address.
      */
-    public void UpdateEmail(){
-        if(adminID.equals("0")) {
-            alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
+    public void UpdateEmail() {
+        if (adminID.equals("0")) {
+            alert("Hint", "Please log in first", null, Alert.AlertType.ERROR);
             return;
         }
 
+        // Create a dialog box to display and update the email address
         Dialog<PersonalInformation> dialog = new Dialog<>();
         dialog.setTitle("E-mail Number");
         dialog.setHeaderText(null);
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20,60,10,10));
+        grid.setPadding(new Insets(20, 60, 10, 10));
         DialogPane dialogPane = dialog.getDialogPane();
-        dialogPane.getButtonTypes().addAll(ButtonType.OK,ButtonType.CANCEL);
+        dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+
+        // Create labels and text fields for old and new email addresses
         Label OldEmailNumber = new Label(new PersonalInformationImpl().getInformation(adminID).email);
         TextField NewEmailNumber = new TextField();
+
+        // Add labels and text fields to the grid
         grid.add(new Label("Old E-mail Number:"), 0, 0);
         grid.add(OldEmailNumber, 1, 0);
         grid.add(new Label("New E-mail Number:"), 0, 1);
         grid.add(NewEmailNumber, 1, 1);
+
+        // Set the grid as the content of the dialog
         dialog.getDialogPane().setContent(grid);
+
+        // Define how the dialog results are converted
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
-                String email=NewEmailNumber.getText();
-                if(!isValidEmail(email)){
-                    alert("Hint","Email is wrong format",null, Alert.AlertType.WARNING);
+                String email = NewEmailNumber.getText();
+                if (!isValidEmail(email)) {
+                    alert("Hint", "Email is in the wrong format", null, Alert.AlertType.WARNING);
                     return null;
                 }
-                return new PersonalInformation(adminID,"","","","","","","");
+                return new PersonalInformation(adminID, "", "", "", "", "", "", email);
             }
             return null;
         });
+
+        // Show the dialog and wait for user input
         Optional<PersonalInformation> results = dialog.showAndWait();
 
-        if(results.isPresent()){
+        if (results.isPresent()) {
             PersonalInformationImpl PII = new PersonalInformationImpl();
-            PII.executeUpdate(adminID,PII.getInformation(adminID).phoneNumber,NewEmailNumber.getText());
+            PII.executeUpdate(adminID, PII.getInformation(adminID).phoneNumber, NewEmailNumber.getText());
             refreshPersonalInformation();
-            alert("Hint","Successfully modified E-mail number is【" + NewEmailNumber.getText() + "】！",null, Alert.AlertType.INFORMATION);
+            alert("Hint", "Successfully modified E-mail number is【" + NewEmailNumber.getText() + "】!", null, Alert.AlertType.INFORMATION);
         }
-        else {
-
-        }
-
     }
+
+
+
+    /**
+     * Checks if a code is valid.
+     *
+     * @param code The code to be validated.
+     * @return {@code true} if the code is valid, {@code false} otherwise.
+     */
     public static boolean isValidCode(String code) {
         String pattern = "^EBU\\d{4}$";
         return code.matches(pattern);
     }
+
+    /**
+     * Regular expression pattern for validating email addresses.
+     */
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
+
+    /**
+     * Checks if an email address is valid based on the defined regular expression pattern.
+     *
+     * @param email The email address to be validated.
+     * @return {@code true} if the email address is valid, {@code false} otherwise.
+     */
     public static boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
+    /**
+     * Regular expression pattern for validating phone numbers.
+     */
     private static final String PHONE_NUMBER_REGEX = "^1[3456789]\\d{9}$";
 
+
+    /**
+     * Checks if a phone number is valid based on the defined regular expression pattern.
+     *
+     * @param phoneNumber The phone number to be validated.
+     * @return {@code true} if the phone number is valid, {@code false} otherwise.
+     */
     public static boolean isValidPhoneNumber(String phoneNumber) {
         Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEX);
         Matcher matcher = pattern.matcher(phoneNumber);
         return matcher.matches();
     }
+
+
+
+    /**
+     * Displays a dialog box to add a module with the provided information.
+     * If the user is not logged in as an admin, an error message is displayed.
+     * The user is prompted to enter the module information, and validation is performed
+     * to ensure all fields are filled and the time format is valid.
+     * If the module number already exists, an information message is shown.
+     * Otherwise, the module is saved and a success message is displayed.
+     * The module table is then refreshed.
+     */
     public void addModule(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
             return;
         }
+
+        // Create and configure the dialog
         Dialog<ModuleResult> dialog = new Dialog<>();
         dialog.setTitle("Add Module");
         dialog.setHeaderText("Enter the module information to be added below:：");
@@ -841,11 +946,13 @@ public class Controller implements Initializable {
         grid.setVgap(10);
         grid.setPadding(new Insets(20,60,10,10));
 
+        // Create input fields for module information
         TextField moID = new TextField();
         TextField moName = new TextField();
         TextField moTime = new TextField();
         TextField moPosition = new TextField();
 
+        // Add labels and input fields to the grid
         grid.add(new Label("Number:"), 0, 0);
         grid.add(moID, 1, 0);
         grid.add(new Label("Role:"), 0, 1);
@@ -857,13 +964,16 @@ public class Controller implements Initializable {
 
         dialog.getDialogPane().setContent(grid);
 
+        // Set the result converter for the dialog
         dialog.setResultConverter((ButtonType button) -> {
             if (button == ButtonType.OK) {
+                // Retrieve input values from the text fields
                 String moIDInput = moID.getText();
                 String moNameInput = moName.getText();
                 String moTimeInput = moTime.getText();
                 String moPositionInput = moPosition.getText();
 
+                // Perform validation checks
                 if (isEmpty(moIDInput) || isEmpty(moNameInput) || isEmpty(moTimeInput) || isEmpty(moPositionInput)) {
                     alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
                     return null;
@@ -873,73 +983,108 @@ public class Controller implements Initializable {
                     alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
                     return null;
                 }
-                return new ModuleResult(moID.getText(),
-                        moName.getText(),moTime.getText(),
-                        moPosition.getText());
+
+                // Return the module information as a ModuleResult object
+                return new ModuleResult(moID.getText(), moName.getText(), moTime.getText(), moPosition.getText());
             }
+
             return null;
         });
+
+        // Display the dialog and capture the result
         Optional<ModuleResult> optionalResult = dialog.showAndWait();
         optionalResult.ifPresent((ModuleResult results) -> {
+            // Retrieve the module with the specified ID
+            Module module = new ModuleServicelmpl().get(Integer.parseInt(results.moID), adminID);
 
-            Module module = new ModuleServicelmpl().get(Integer.parseInt(results.moID),adminID);
-
-            if(module != null){
-                alert("Hint","Module number is" +
-                        "【" + results.moID + "】data which is exist，unable to add！",null, Alert.AlertType.INFORMATION);
-            }else{
-                new ModuleServicelmpl().save(new Module(results.moID, results.moName, results.moTime,
-                               results.moPosition,adminID));
-
-                alert("Hint","Successfully saved module number is【" + results.moID + "】role data！",null, Alert.AlertType.INFORMATION);
+            if (module != null) {
+                // Display an information message if the module already exists
+                alert("Hint","Module number is " + "【" + results.moID + "】data which is exist, unable to add!", null, Alert.AlertType.INFORMATION);
+            } else {
+                // Save the new module and display a success message
+                new ModuleServicelmpl().save(new Module(results.moID, results.moName, results.moTime, results.moPosition, adminID));
+                alert("Hint","Successfully saved module number is【" + results.moID + "】role data!", null, Alert.AlertType.INFORMATION);
                 refreshModuleTable();
-
             }
         });
     }
+
+    /**
+     * Prompts the user to enter a module ID and deletes the corresponding module if it exists.
+     * If the user is not logged in as an admin, an error message is displayed.
+     * The user is prompted to enter a module ID.
+     * If the ID is valid and the module exists, it is deleted and a success message is shown.
+     * If the module does not exist, an error message is displayed.
+     * The module table is then refreshed.
+     */
     public void deleteModule(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first",null, Alert.AlertType.ERROR);
             return;
         }
+
+        // Create and configure the input dialog
         TextInputDialog d = new TextInputDialog();
         d.setTitle("Delete module");
         d.setHeaderText("Enter module Id to delete:");
         d.setContentText("ID:");
         Optional<String> result = d.showAndWait();
 
+        // Check if the user entered a module ID
         if (result.isPresent()){
+            // Validate the module ID
             if(checkIdIllegal(result.get())){
                 return;
             }
+
+            // Retrieve the module with the specified ID
             Module module = new ModuleServicelmpl().get(Integer.parseInt(result.get()),adminID);
+
             if(null != module){
+                // Delete the module and display a success message
                 new ModuleServicelmpl().delete(adminID,result.get());
                 alert("Hint","Successfully deleted number is【" + module.getMoID() + "】's module data！",null, Alert.AlertType.INFORMATION);
                 refreshModuleTable();
-            }else {
+            } else {
+                // Display an error message if the module does not exist
                 alert("Hint","There is no record of this module and it cannot be deleted！",null, Alert.AlertType.ERROR);
             }
         }
     }
+
+    /**
+     * Prompts the user to enter a module ID and allows them to modify the corresponding module's information if it exists.
+     * If the user is not logged in as an admin, an error message is displayed.
+     * The user is prompted to enter a module ID.
+     * If the ID is valid and the module exists, a dialog is displayed with the current module information.
+     * The user can modify the module information and save the changes by clicking the OK button.
+     * If all fields are filled and the time format is valid, the changes are applied and a success message is shown.
+     * The module table is then refreshed.
+     */
     public void changeModule(){
         if(adminID.equals("0")) {
             alert("Hint","Please log in first!",null, Alert.AlertType.ERROR);
             return;
         }
+
+        // Create and configure the input dialog
         TextInputDialog d = new TextInputDialog();
         d.setTitle("Modify Module Information");
         d.setHeaderText("Enter the Module ID to modify the information：");
         d.setContentText("ID:");
         Optional<String> result = d.showAndWait();
 
+        // Check if the user entered a module ID
         if(result.isPresent()){
+            // Validate the module ID
             if(checkIdIllegal(result.get())){
                 return;
             }
 
+            // Retrieve the module with the specified ID
             Module module = new ModuleServicelmpl().get(Integer.parseInt(result.get()),adminID);
             if(null != module){
+                // Create and configure the dialog to display the module information
                 Dialog<ModuleResult> dialog = new Dialog<>();
                 dialog.setTitle("Module Data");
                 dialog.setHeaderText(null);
@@ -952,12 +1097,13 @@ public class Controller implements Initializable {
                 grid.setVgap(10);
                 grid.setPadding(new Insets(20,60,10,10));
 
+                // Create input fields and populate them with the current module information
                 TextField moID = new TextField(module.getMoID());
                 TextField moName = new TextField(module.getMoName());
                 TextField moTime = new TextField(module.getMoTime());
                 TextField moPosition = new TextField(module.getMoPosition());
 
-
+                // Add labels and input fields to the grid
                 grid.add(new Label("Number:"), 0, 0);
                 grid.add(moID, 1, 0);
                 grid.add(new Label("Achievement:"), 0, 1);
@@ -967,16 +1113,17 @@ public class Controller implements Initializable {
                 grid.add(new Label("Obtained time:"), 0, 3);
                 grid.add(moPosition, 1, 3);
 
-
                 dialog.getDialogPane().setContent(grid);
 
                 dialog.setResultConverter((ButtonType button) -> {
                     if (button == ButtonType.OK) {
+                        // Retrieve modified values from the input fields
                         String moIDInput = moID.getText();
                         String moNameInput = moName.getText();
                         String moTimeInput = moTime.getText();
                         String moPositionInput = moPosition.getText();
 
+                        // Perform validation checks
                         if (isEmpty(moIDInput) || isEmpty(moNameInput) || isEmpty(moTimeInput) || isEmpty(moPositionInput)) {
                             alert("Hint", "Please fill in all the fields", null, Alert.AlertType.ERROR);
                             return null;
@@ -986,33 +1133,32 @@ public class Controller implements Initializable {
                             alert("Hint", "Invalid time format. Please use the format yyyy.MM.dd", null, Alert.AlertType.ERROR);
                             return null;
                         }
+
+                        // Return the modified module information
                         return new ModuleResult(moIDInput, moNameInput, moTimeInput, moPositionInput);
                     }
 
                     return null;
                 });
+
                 Optional<ModuleResult> results = dialog.showAndWait();
 
                 if(results.isPresent()){
-
-                    Module mod=new Module(moID.getText()
-                            ,moName.getText(),moTime.getText()
-                    ,moPosition.getText(),adminID);
+                    // Update the module with the modified information
+                    Module mod=new Module(moID.getText(), moName.getText(), moTime.getText(), moPosition.getText(), adminID);
                     new ModuleServicelmpl().update(mod);
-                    alert("Hint","Successfully modified the number is【" +
-                            mod.getMoID() + "】 module data！",null, Alert.AlertType.INFORMATION);
+                    alert("Hint","Successfully modified the number is【" + mod.getMoID() + "】 module data！",null, Alert.AlertType.INFORMATION);
                     refreshModuleTable();
                 }
-            }else{
-                alert("Hint","There is no record of this module and cannot be modified！"
-                        ,null, Alert.AlertType.ERROR);
+            } else {
+                // Display an error message if the module does not exist
+                alert("Hint","There is no record of this module and cannot be modified！",null, Alert.AlertType.ERROR);
             }
         }
     }
 
-    /**
-     * log Out function
-     */
+
+
     public  void logOut(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText("Please confirm if you want to log out:");
@@ -1037,9 +1183,7 @@ public class Controller implements Initializable {
     }
 
 
-    /**
-     * login function
-     */
+
     public void login(){
         Dialog<LoginResults> dialog = new Dialog<>();
         dialog.setTitle("Login");
@@ -1097,16 +1241,28 @@ public class Controller implements Initializable {
     }
 
 
+    /**
+     * Initializes the controller and its associated UI elements when the corresponding view is loaded.
+     * If the user is not logged in as an admin (adminID equals "0"), certain tabs and their associated tables are set to be visible.
+     * Otherwise, the course table, achievement table, personal information, role table, and module table are refreshed and set to be visible.
+     * This method is called automatically when the view is loaded.
+     *
+     * @param location   The URL of the FXML file for the view.
+     * @param resources  The ResourceBundle for the view.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(adminID.equals("0")) {
+            // Set certain tabs and their associated tables to be visible for non-admin users
             setTabVisible(tab_course, courseTableView);
-            setTabVisible(tab_achievement,achievementTableView);
-            setTabVisible(tab_information,informationview);
-            setTabVisible(tab_role,RoleTableView);
-            setTabVisible(tab_module,ModuleTableView);
+            setTabVisible(tab_achievement, achievementTableView);
+            setTabVisible(tab_information, informationview);
+            setTabVisible(tab_role, RoleTableView);
+            setTabVisible(tab_module, ModuleTableView);
             return;
         }
+
+        // Refresh and set visible the course table, achievement table, personal information, role table, and module table
         refreshCourseTable();
         refreshAchTable();
         refreshPersonalInformation();
@@ -1114,11 +1270,12 @@ public class Controller implements Initializable {
         refreshModuleTable();
 
         setTabVisible(tab_course, courseTableView);
-        setTabVisible(tab_information,informationview);
-        setTabVisible(tab_achievement,achievementTableView);
-        setTabVisible(tab_role,RoleTableView);
-        setTabVisible(tab_module,ModuleTableView);
+        setTabVisible(tab_information, informationview);
+        setTabVisible(tab_achievement, achievementTableView);
+        setTabVisible(tab_role, RoleTableView);
+        setTabVisible(tab_module, ModuleTableView);
     }
+
 
     public TableCell<MediaPlayer.Status,String> getCell(TableColumn tc){
         TableCell<MediaPlayer.Status,String> cell = new TableCell<>();
@@ -1174,11 +1331,14 @@ public class Controller implements Initializable {
 
     }
 
+
     /**
-     * The function of updating personal information
+     * Refreshes the personal information displayed on the grid pane.
      */
-    private void refreshPersonalInformation(){
+    private void refreshPersonalInformation() {
         grid_pane_information.getChildren().clear();
+
+        // Load and set the image
         String url = new PersonalInformationImpl().getInformation(adminID).imageUrl;
         Image image = new Image(url);
         imageView.setImage(image);
@@ -1187,52 +1347,95 @@ public class Controller implements Initializable {
         imageView.setFitWidth(150);
         imageView.setFitHeight(128);
         imageView.setVisible(true);
-        grid_pane_information.add(new Label("Student   ID:"),0,1);
-        grid_pane_information.add(new Label("Student Name:"),0,0);
-        grid_pane_information.add(new Label("Major  Name:"),0,2);
-        grid_pane_information.add(new Label("Phone Number:"),0,3);
-        grid_pane_information.add(new Label("E-mail Number:"),0,4);
-        grid_pane_information.add(new Label("College Name:"),0,5);
+
+        // Add labels to display personal information
+        grid_pane_information.add(new Label("Student ID:"), 0, 1);
+        grid_pane_information.add(new Label("Student Name:"), 0, 0);
+        grid_pane_information.add(new Label("Major Name:"), 0, 2);
+        grid_pane_information.add(new Label("Phone Number:"), 0, 3);
+        grid_pane_information.add(new Label("E-mail Number:"), 0, 4);
+        grid_pane_information.add(new Label("College Name:"), 0, 5);
+
+        // Retrieve personal information
         PersonalInformation PI = new PersonalInformationImpl().getInformation(adminID);
-        grid_pane_information.add(new Label(PI.id),1,1);
-        grid_pane_information.add(new Label(PI.name),1,0);
-        grid_pane_information.add(new Label(PI.phoneNumber),1,3);
-        grid_pane_information.add(new Label(PI.email),1,4);
-        grid_pane_information.add(new Label(PI.major),1,2);
-        grid_pane_information.add(new Label(PI.college),1,5);
+
+        // Add personal information labels to the grid pane
+        grid_pane_information.add(new Label(PI.id), 1, 1);
+        grid_pane_information.add(new Label(PI.name), 1, 0);
+        grid_pane_information.add(new Label(PI.phoneNumber), 1, 3);
+        grid_pane_information.add(new Label(PI.email), 1, 4);
+        grid_pane_information.add(new Label(PI.major), 1, 2);
+        grid_pane_information.add(new Label(PI.college), 1, 5);
     }
-    private void refreshRoleTable(){
+
+    /**
+     * Refreshes the role table by populating it with the roles associated with the given admin ID.
+     */
+    private void refreshRoleTable() {
+        // Set cell value factories for table columns
         roIDCol.setCellValueFactory(new PropertyValueFactory<>("roID"));
         roNameCol.setCellValueFactory(new PropertyValueFactory<>("roName"));
         roTimeStartCol.setCellValueFactory(new PropertyValueFactory<>("roTimeStart"));
         roTimeEndCol.setCellValueFactory(new PropertyValueFactory<>("roTimeEnd"));
 
-        roNameCol.setCellFactory(tc->{return getCell(roNameCol);});
-        roTimeStartCol.setCellFactory(tc->{return getCell(roTimeStartCol);});
-        roTimeEndCol.setCellFactory(tc->{return getCell(roTimeEndCol);});
-        List<Role>roles=new RoleServiceimpl().getAll(adminID);
-        ObservableList<Role>data=FXCollections.observableArrayList();
-        for (Role role:roles){
+        // Set custom cell factories for specific columns
+        roNameCol.setCellFactory(tc -> {
+            return getCell(roNameCol);
+        });
+        roTimeStartCol.setCellFactory(tc -> {
+            return getCell(roTimeStartCol);
+        });
+        roTimeEndCol.setCellFactory(tc -> {
+            return getCell(roTimeEndCol);
+        });
+
+        // Retrieve all roles associated with the admin ID
+        List<Role> roles = new RoleServiceimpl().getAll(adminID);
+
+        // Create an observable list and add roles to it
+        ObservableList<Role> data = FXCollections.observableArrayList();
+        for (Role role : roles) {
             data.add(role);
         }
+
+        // Set the data to the RoleTableView
         RoleTableView.setItems(data);
     }
-    private void refreshModuleTable(){
+
+    /**
+     * Refreshes the module table by populating it with the modules associated with the given admin ID.
+     */
+    private void refreshModuleTable() {
+        // Set cell value factories for table columns
         moIDCol.setCellValueFactory(new PropertyValueFactory<>("moID"));
         moNameCol.setCellValueFactory(new PropertyValueFactory<>("moName"));
         moTimeCol.setCellValueFactory(new PropertyValueFactory<>("moTime"));
         moPositionCol.setCellValueFactory(new PropertyValueFactory<>("moPosition"));
 
-        moNameCol.setCellFactory(tc->{return getCell(moNameCol);});
-        moTimeCol.setCellFactory(tc->{return getCell(moTimeCol);});
-        moPositionCol.setCellFactory(tc->{return getCell(moPositionCol);});
-        List<Module>modules=new ModuleServicelmpl().getAll(adminID);
-        ObservableList<Module>data=FXCollections.observableArrayList();
-        for (Module module:modules){
+        // Set custom cell factories for specific columns
+        moNameCol.setCellFactory(tc -> {
+            return getCell(moNameCol);
+        });
+        moTimeCol.setCellFactory(tc -> {
+            return getCell(moTimeCol);
+        });
+        moPositionCol.setCellFactory(tc -> {
+            return getCell(moPositionCol);
+        });
+
+        // Retrieve all modules associated with the admin ID
+        List<Module> modules = new ModuleServicelmpl().getAll(adminID);
+
+        // Create an observable list and add modules to it
+        ObservableList<Module> data = FXCollections.observableArrayList();
+        for (Module module : modules) {
             data.add(module);
         }
+
+        // Set the data to the ModuleTableView
         ModuleTableView.setItems(data);
     }
+
     private boolean checkIdIllegal(String sID){
         if(sID.length() >= 10){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -1301,45 +1504,78 @@ public class Controller implements Initializable {
             this.tMajor = tMajor;
         }
     }
-    public static class RoleResult{
+
+    /**
+     * Represents a role result, containing information such as role ID, role name, start time, and end time.
+     */
+    public static class RoleResult {
         private String rID;
         private String rName;
         private String rTimeStart;
         private String rTimeEnd;
-        public RoleResult(String rID,String rName,String rTimeStart,String rTimeEnd){
-            this.rID=rID;
-            this.rName=rName;
-            this.rTimeStart=rTimeStart;
-            this.rTimeEnd=rTimeEnd;
+
+        /**
+         * Constructs a RoleResult object with the specified role ID, role name, start time, and end time.
+         *
+         * @param rID         The role ID.
+         * @param rName       The role name.
+         * @param rTimeStart  The start time of the role.
+         * @param rTimeEnd    The end time of the role.
+         */
+        public RoleResult(String rID, String rName, String rTimeStart, String rTimeEnd) {
+            this.rID = rID;
+            this.rName = rName;
+            this.rTimeStart = rTimeStart;
+            this.rTimeEnd = rTimeEnd;
         }
     }
-    public static class ModuleResult{
+
+    /**
+     * Represents a module result, containing information such as module ID, module name, time, and position.
+     */
+    public static class ModuleResult {
         private String moID;
         private String moName;
         private String moTime;
         private String moPosition;
-        public ModuleResult(String moID,String moName,String moTime,String moPosition){
-            this.moID=moID;
-            this.moName=moName;
-            this.moTime =moTime;
-            this.moPosition=moPosition;
+
+        /**
+         * Constructs a ModuleResult object with the specified module ID, module name, time, and position.
+         *
+         * @param moID       The module ID.
+         * @param moName     The module name.
+         * @param moTime     The time of the module.
+         * @param moPosition The position of the module.
+         */
+        public ModuleResult(String moID, String moName, String moTime, String moPosition) {
+            this.moID = moID;
+            this.moName = moName;
+            this.moTime = moTime;
+            this.moPosition = moPosition;
         }
     }
+
     private interface Task {
         void execute();
     }
-    private void setTabVisible(Tab tab, TableView tableView){
+
+    /**
+     * Sets the visibility of a tab and corresponding table view.
+     *
+     * @param tab       The tab to set visibility for.
+     * @param tableView The table view associated with the tab.
+     */
+    private void setTabVisible(Tab tab, TableView tableView) {
         setTabAction(tab, new Task() {
             @Override
             public void execute() {
-                if(tableView.equals(courseTableView)){
+                if (tableView.equals(courseTableView)) {
                     courseTableView.setVisible(true);
                     achievementTableView.setVisible(false);
                     pane_personal.setVisible(false);
                     RoleTableView.setVisible(false);
                     ModuleTableView.setVisible(false);
-                }
-                else if(tableView.equals(achievementTableView)){
+                } else if (tableView.equals(achievementTableView)) {
                     courseTableView.setVisible(false);
                     achievementTableView.setVisible(true);
                     pane_personal.setVisible(false);
@@ -1351,13 +1587,13 @@ public class Controller implements Initializable {
                     achievementTableView.setVisible(false);
                     RoleTableView.setVisible(false);
                     ModuleTableView.setVisible(false);
-                } else if(tableView.equals(RoleTableView)) {
+                } else if (tableView.equals(RoleTableView)) {
                     pane_personal.setVisible(false);
                     courseTableView.setVisible(false);
                     achievementTableView.setVisible(false);
                     RoleTableView.setVisible(true);
                     ModuleTableView.setVisible(false);
-                }else if(tableView.equals(ModuleTableView)){
+                } else if (tableView.equals(ModuleTableView)) {
                     pane_personal.setVisible(false);
                     courseTableView.setVisible(false);
                     achievementTableView.setVisible(false);
@@ -1367,6 +1603,13 @@ public class Controller implements Initializable {
             }
         });
     }
+
+    /**
+     * Sets the action to be executed when a tab is selected.
+     *
+     * @param tab   The tab to set the action for.
+     * @param task  The task to be executed when the tab is selected.
+     */
     private void setTabAction(Tab tab, Task task) {
         tab.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -1375,4 +1618,5 @@ public class Controller implements Initializable {
             }
         });
     }
+
 }

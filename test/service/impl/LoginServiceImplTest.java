@@ -10,7 +10,6 @@ class LoginServiceImplTest {
     void getUser() {
         LoginServiceImpl loginService=new LoginServiceImpl();
         String line=loginService.getUser(2020213301,12345);
-
         assertEquals("2020213301",line);
     }
 }
