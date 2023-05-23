@@ -3,15 +3,15 @@ package bean;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Achievement {
-    /** ID（主键） **/
+    /** ID (primary key) **/
     private final SimpleStringProperty achID;
-    /** 姓名 **/
+    /** Name **/
     private final SimpleStringProperty achName;
-    /** 性别**/
+    /** Level **/
     private final SimpleStringProperty achLevel;
-    /** 出生日期**/
+    /** Time **/
     private final SimpleStringProperty achTime;
-    /** 所在专业**/
+    /** Major **/
     private final SimpleStringProperty achMajor;
 
     public Achievement(String achID,
@@ -26,7 +26,7 @@ public class Achievement {
         this.achMajor = new SimpleStringProperty(achMajor);
     }
 
-
+    // Getter and Setter methods for each property
     public String getAchID() {
         return achID.get();
     }
