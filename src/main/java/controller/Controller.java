@@ -269,7 +269,7 @@ public class Controller implements Initializable {
                         alert("Hint", "Score must be between 0 and 100.", null, Alert.AlertType.ERROR);
                         return;
                     }
-                    new CourseServiceImpl().update(result.get(), course);
+                    new CourseServiceImpl().update(result.get(), courseadd);
                     alert("Hint","Successfully modified course number is【" + course.getcID() + "】course data！",null, Alert.AlertType.INFORMATION);
                     refreshCourseTable();
                     });
@@ -467,7 +467,9 @@ public class Controller implements Initializable {
                         String achMajorInput = tMajor.getText();
                         Achievement achievement1=new AchievementServiceImpl().get(Integer.parseInt(achIDInput),adminID);
 
-                        if(achievement1!=null){
+                        if(achievement1!=null&&!achievement1.getAchID().equals(achievement.getAchID())){
+                            System.out.println(achievement1.getAchID());
+                            System.out.println(achievement.getAchID());
                             alert("Hint", "ID duplication.", null, Alert.AlertType.ERROR);
                             return null;
                         }

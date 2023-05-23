@@ -20,3 +20,7 @@ public class Main extends Application {
     }
 
 }
+//java -cp learning_journey/jars/javafx-sdk-11.0.2/lib/*.Launcher.java
+//javac -cp learning_journey/jars/javafx-sdk-11.0.2/lib/*.jar Launcher.java
+//javac -cp learning_journey/jars/javafx-sdk-11.0.2/lib/*.jar Main.java
+//javac -cp learning_journey/jars/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml Main.java
