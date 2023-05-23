@@ -114,6 +114,7 @@ public class Controller implements Initializable {
     // Regular expression for email validation
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
+
     // Regular expression for phone number validation
     private static final String PHONE_NUMBER_REGEX = "^1[3456789]\\d{9}$";
     /**
@@ -957,10 +958,7 @@ public class Controller implements Initializable {
         return code.matches(pattern);
     }
 
-    /**
-     * Regular expression pattern for validating email addresses.
-     */
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
 
 
     /**
@@ -975,10 +973,7 @@ public class Controller implements Initializable {
         return matcher.matches();
     }
 
-    /**
-     * Regular expression pattern for validating phone numbers.
-     */
-    private static final String PHONE_NUMBER_REGEX = "^1[3456789]\\d{9}$";
+
 
 
     /**
