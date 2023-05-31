@@ -32,6 +32,7 @@
                                     <children>
                                         <Button mnemonicParsing="false" onAction="#UpdatePhoneNum" prefHeight="40.0" prefWidth="200.0" text="Update Phone Number" />
                                         <Button mnemonicParsing="false" onAction="#UpdateEmail" prefHeight="40.0" prefWidth="200.0" text="Update Email" />
+                                        <Button mnemonicParsing="false" onAction="#exportPersonalData" prefHeight="40.0" prefWidth="200.0" text="Export Data" />
                                     </children>
                                 </VBox>
                             </children>
@@ -48,6 +49,8 @@
                                         <Button mnemonicParsing="false" onAction="#changeCourse" prefHeight="40.0" prefWidth="200.0" text="Update Course" />
                                         <Button mnemonicParsing="false" onAction="#deleteCourse" prefHeight="40.0" prefWidth="200.0" text="Delete Course" />
                                         <Button mnemonicParsing="false" onAction="#calculateGPA" prefHeight="40.0" prefWidth="200.0" text="Calculate GPA" />
+                                        <Button mnemonicParsing="false" onAction="#exportCourseData" prefHeight="40.0" prefWidth="200.0" text="Export Data" />
+
                                     </children>
                                 </VBox>
                             </children>
@@ -62,7 +65,8 @@
                                     <children>
                                         <Button mnemonicParsing="false" onAction="#addAchievement" prefHeight="40.0" prefWidth="200.0" text="Add Achievements" />
                                         <Button mnemonicParsing="false" onAction="#changeAch" prefHeight="40.0" prefWidth="200.0" text="Update Achievements" />
-                                        <Button mnemonicParsing="false" onAction="#deleteTea" prefHeight="40.0" prefWidth="200.0" text="Delete Achievements" />
+                                        <Button mnemonicParsing="false" onAction="#deleteAch" prefHeight="40.0" prefWidth="200.0" text="Delete Achievements" />
+                                        <Button mnemonicParsing="false" onAction="#exportAchievementData" prefHeight="40.0" prefWidth="200.0" text="Export Data" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets />
@@ -81,6 +85,7 @@
                                         <Button mnemonicParsing="false" onAction="#addRole" prefHeight="40.0" prefWidth="200.0" text="Add Role" />
                                         <Button mnemonicParsing="false" onAction="#changeRole" prefHeight="40.0" prefWidth="200.0" text="Update Role" />
                                         <Button mnemonicParsing="false" onAction="#deleteRole" prefHeight="40.0" prefWidth="200.0" text="Delete Role" />
+                                        <Button mnemonicParsing="false" onAction="#exportRoleData" prefHeight="40.0" prefWidth="200.0" text="Export Data" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets />
@@ -99,6 +104,7 @@
                                         <Button mnemonicParsing="false" onAction="#addModule" prefHeight="40.0" prefWidth="200.0" text="Add Modules" />
                                         <Button mnemonicParsing="false" onAction="#changeModule" prefHeight="40.0" prefWidth="200.0" text="Update Modules" />
                                         <Button mnemonicParsing="false" onAction="#deleteModule" prefHeight="40.0" prefWidth="200.0" text="Delete Modules" />
+                                        <Button mnemonicParsing="false" onAction="#exportModuleData" prefHeight="40.0" prefWidth="200.0" text="Export Data" />
                                     </children>
                                     <opaqueInsets>
                                         <Insets />
