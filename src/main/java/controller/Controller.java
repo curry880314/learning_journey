@@ -6,6 +6,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import service.impl.*;
 import bean.*;
 import javafx.beans.value.ChangeListener;
@@ -22,6 +24,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -107,6 +110,10 @@ public class Controller implements Initializable {
 
     // List to store courses
     List<Course> courses = new ArrayList<>();
+    List<Achievement> achievements = new ArrayList<>();
+    PersonalInformation PI = null;
+    List<Module> modules = new ArrayList<>();
+    List<Role> roles = new ArrayList<>();
 
     // ImageView for displaying an image
     ImageView imageView = new ImageView();
@@ -973,6 +980,107 @@ public class Controller implements Initializable {
         return matcher.matches();
     }
 
+    public void exportCourseData() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Data");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+
+                for (Course c:courses) {
+                    String data =c.getcID()+","+c.getcName()+","+c.getcScore()+","+c.getcStartTerm()+","+c.getcPeriod()+","+ c.getcCredit()+"\r\n";
+                    writer.write(data);
+                }
+
+                System.out.println("Data exported to: " + file.getAbsolutePath());
+            } catch (IOException e) {
+                System.out.println("Failed to export data: " + e.getMessage());
+            }
+        }
+    }
+    public void exportAchievementData() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Data");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+
+                for (Achievement a:achievements) {
+                    String data = a.getAchID()+","+a.getAchName()+","+a.getAchLevel()+","+a.getAchTime()+","+a.getAchMajor()+"\r\n";
+                    writer.write(data);
+                }
+
+                System.out.println("Data exported to: " + file.getAbsolutePath());
+            } catch (IOException e) {
+                System.out.println("Failed to export data: " + e.getMessage());
+            }
+        }
+    }
+    public void exportModuleData() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Data");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+
+                for (Module m:modules) {
+                    String data = m.getMoID()+","+m.getMoName()+","+m.getMoTime()+","+m.getMoPosition()+"\r\n";
+                    writer.write(data);
+                }
+            } catch (IOException e) {
+            }
+        }
+    }
+    public void exportPersonalData() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Data");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+                    String data = PI.getName()+","+PI.getId()+","+PI.password+","+PI.phoneNumber+","+PI.email+","+PI.major+","+PI.college+"\r\n";
+                    writer.write(data);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void exportRoleData() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Data");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt")
+        );
+
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+                for (Role r:roles) {
+                    String data = r.getRoID()+","+r.getRoName()+","+r.getRoTimeStart()+","+r.getRoTimeEnd()+"\r\n";
+                    writer.write(data);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 
 
@@ -1377,6 +1485,8 @@ public class Controller implements Initializable {
      * Retrieves the courses from the service layer and populates the table view with the data.
      * Configures cell factories for specific columns to customize their appearance.
      */
+
+
     private void refreshCourseTable(){
         cIdCol.setCellValueFactory(new PropertyValueFactory<>("cID"));
         cNameCol.setCellValueFactory(new PropertyValueFactory<>("cName"));
@@ -1412,7 +1522,7 @@ public class Controller implements Initializable {
         achNameCol.setCellFactory(tc -> {return getCell(achNameCol);});
         achMajorCol.setCellFactory(tc -> {return getCell(achMajorCol);});
 
-        List<Achievement> achievements = new AchievementServiceImpl().getAll(adminID);
+        achievements = new AchievementServiceImpl().getAll(adminID);
         ObservableList<Achievement> data = FXCollections.observableArrayList();
         for (Achievement achievement : achievements) {
             data.add(achievement);
@@ -1448,7 +1558,7 @@ public class Controller implements Initializable {
         grid_pane_information.add(new Label("College Name:"), 0, 5);
 
         // Retrieve personal information
-        PersonalInformation PI = new PersonalInformationImpl().getInformation(adminID);
+         PI = new PersonalInformationImpl().getInformation(adminID);
 
         // Add personal information labels to the grid pane
         grid_pane_information.add(new Label(PI.id), 1, 1);
@@ -1481,7 +1591,7 @@ public class Controller implements Initializable {
         });
 
         // Retrieve all roles associated with the admin ID
-        List<Role> roles = new RoleServiceimpl().getAll(adminID);
+         roles = new RoleServiceimpl().getAll(adminID);
 
         // Create an observable list and add roles to it
         ObservableList<Role> data = FXCollections.observableArrayList();
@@ -1515,7 +1625,7 @@ public class Controller implements Initializable {
         });
 
         // Retrieve all modules associated with the admin ID
-        List<Module> modules = new ModuleServicelmpl().getAll(adminID);
+        modules = new ModuleServicelmpl().getAll(adminID);
 
         // Create an observable list and add modules to it
         ObservableList<Module> data = FXCollections.observableArrayList();
