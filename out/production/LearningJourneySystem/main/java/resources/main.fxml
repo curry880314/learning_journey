@@ -50,7 +50,7 @@
                                         <Button mnemonicParsing="false" onAction="#deleteCourse" prefHeight="40.0" prefWidth="200.0" text="Delete Course" />
                                         <Button mnemonicParsing="false" onAction="#calculateGPA" prefHeight="40.0" prefWidth="200.0" text="Calculate GPA" />
                                         <Button mnemonicParsing="false" onAction="#exportCourseData" prefHeight="40.0" prefWidth="200.0" text="Export Data" />
-
+                                        <Button mnemonicParsing="false" onAction="#generateChart" prefHeight="40.0" prefWidth="200.0" text="Generate Chart" />
                                     </children>
                                 </VBox>
                             </children>

@@ -1,10 +1,17 @@
 package controller;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.chart.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.*;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -22,8 +29,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 
+import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -104,7 +111,7 @@ public class Controller implements Initializable {
 
     // Default admin ID
     String adminID = "0";
-
+    String url = null;
     // User's username
     String username = "";
 
@@ -1569,7 +1576,7 @@ public class Controller implements Initializable {
         grid_pane_information.getChildren().clear();
 
         // Load and set the image
-        String url = new PersonalInformationImpl().getInformation(adminID).imageUrl;
+        url = new PersonalInformationImpl().getInformation(adminID).imageUrl;
         Image image = new Image(url);
         imageView.setImage(image);
         imageView.setX(450);
@@ -1904,6 +1911,35 @@ public class Controller implements Initializable {
                 task.execute();
             }
         });
+    }
+
+
+    public void  generateChart() {
+        if (courses == null) {
+            alert("Hint", "The data is empty and cannot generate a chart！", null, Alert.AlertType.ERROR);
+        } else {
+            CategoryAxis xAxis = new CategoryAxis();
+            xAxis.setLabel("Course Name");
+            NumberAxis yAxis = new NumberAxis();
+            yAxis.setLabel("Score");
+            LineChart<String, Number> Chart = new LineChart<>(xAxis, yAxis);
+
+            Chart.setTitle("Score Distribution Chart");
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+            for (Course course : courses) {
+                series.getData().add(new XYChart.Data<>(course.getcName(), Integer.parseInt(course.getcScore())));
+            }
+
+            Chart.getData().add(series);
+            Stage stage = new Stage();
+
+            Scene scene = new Scene(Chart, 800, 600);
+            stage.setTitle("Chart");
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
 }
