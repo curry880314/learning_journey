@@ -109,11 +109,11 @@ public class Controller implements Initializable {
     String username = "";
 
     // List to store courses
-    List<Course> courses = new ArrayList<>();
-    List<Achievement> achievements = new ArrayList<>();
+    List<Course> courses = null;
+    List<Achievement> achievements = null;
     PersonalInformation PI = null;
-    List<Module> modules = new ArrayList<>();
-    List<Role> roles = new ArrayList<>();
+    List<Module> modules = null;
+    List<Role> roles = null;
 
     // ImageView for displaying an image
     ImageView imageView = new ImageView();
@@ -981,102 +981,126 @@ public class Controller implements Initializable {
     }
 
     public void exportCourseData() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Data");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt")
-        );
+        if(courses == null){
+            alert("Hint","The data is empty and cannot be exported！",null, Alert.AlertType.ERROR);
+        }
+        else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Data");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Text Files", "*.txt")
+            );
 
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
 
-                for (Course c:courses) {
-                    String data =c.getcID()+","+c.getcName()+","+c.getcScore()+","+c.getcStartTerm()+","+c.getcPeriod()+","+ c.getcCredit()+"\r\n";
-                    writer.write(data);
+                    for (Course c : courses) {
+                        String data = c.getcID() + "," + c.getcName() + "," + c.getcScore() + "," + c.getcStartTerm() + "," + c.getcPeriod() + "," + c.getcCredit() + "\r\n";
+                        writer.write(data);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                System.out.println("Data exported to: " + file.getAbsolutePath());
-            } catch (IOException e) {
-                System.out.println("Failed to export data: " + e.getMessage());
             }
         }
     }
     public void exportAchievementData() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Data");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt")
-        );
+        if(achievements == null){
+            alert("Hint","The data is empty and cannot be exported！",null, Alert.AlertType.ERROR);
+        }
+        else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Data");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Text Files", "*.txt")
+            );
 
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
 
-                for (Achievement a:achievements) {
-                    String data = a.getAchID()+","+a.getAchName()+","+a.getAchLevel()+","+a.getAchTime()+","+a.getAchMajor()+"\r\n";
-                    writer.write(data);
+                    for (Achievement a : achievements) {
+                        String data = a.getAchID() + "," + a.getAchName() + "," + a.getAchLevel() + "," + a.getAchTime() + "," + a.getAchMajor() + "\r\n";
+                        writer.write(data);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                System.out.println("Data exported to: " + file.getAbsolutePath());
-            } catch (IOException e) {
-                System.out.println("Failed to export data: " + e.getMessage());
             }
         }
     }
     public void exportModuleData() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Data");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt")
-        );
+        if(modules == null){
+            alert("Hint","The data is empty and cannot be exported！",null, Alert.AlertType.ERROR);
+        }
+        else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Data");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Text Files", "*.txt")
+            );
 
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
 
-                for (Module m:modules) {
-                    String data = m.getMoID()+","+m.getMoName()+","+m.getMoTime()+","+m.getMoPosition()+"\r\n";
-                    writer.write(data);
+                    for (Module m : modules) {
+                        String data = m.getMoID() + "," + m.getMoName() + "," + m.getMoTime() + "," + m.getMoPosition() + "\r\n";
+                        writer.write(data);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
             }
         }
     }
     public void exportPersonalData() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Data");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt")
-        );
+        if(PI == null){
+            alert("Hint","The data is empty and cannot be exported！",null, Alert.AlertType.ERROR);
+        }
+        else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Data");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Text Files", "*.txt")
+            );
 
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
-                    String data = PI.getName()+","+PI.getId()+","+PI.password+","+PI.phoneNumber+","+PI.email+","+PI.major+","+PI.college+"\r\n";
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+                    String data = PI.getName() + "," + PI.getId() + "," + PI.password + "," + PI.phoneNumber + "," + PI.email + "," + PI.major + "," + PI.college + "\r\n";
                     writer.write(data);
-            } catch (IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     public void exportRoleData() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Data");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt")
-        );
+        if(roles == null){
+            alert("Hint","The data is empty and cannot be exported！",null, Alert.AlertType.ERROR);
+        }
+        else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Data");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Text Files", "*.txt")
+            );
 
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
-                for (Role r:roles) {
-                    String data = r.getRoID()+","+r.getRoName()+","+r.getRoTimeStart()+","+r.getRoTimeEnd()+"\r\n";
-                    writer.write(data);
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+                    for (Role r : roles) {
+                        String data = r.getRoID() + "," + r.getRoName() + "," + r.getRoTimeStart() + "," + r.getRoTimeEnd() + "\r\n";
+                        writer.write(data);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -1353,6 +1377,11 @@ public class Controller implements Initializable {
             RoleTableView.setItems(null);
             ModuleTableView.setItems(null);
             grid_pane_information.getChildren().clear();
+            PI = null;
+            courses=null;
+            achievements=null;
+            roles = null;
+            modules=null;
             imageView.setImage(null);
             loginButton.setVisible(true);
             logOutButton.setVisible(false);
